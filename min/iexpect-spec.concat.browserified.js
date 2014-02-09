@@ -6,12 +6,17 @@ describe('iexpect', function (){
 		var a = { sport: 'hockey' };
 		var b = { sport: 'hockey' };
 
+		// Run iexpect's assertions.
+		// If they fail, the test will not proceed.
 		iexpect.expect(1).toEqual(1);
 		iexpect.expect('a').toEqual('a');
 		iexpect.expect(true).toEqual(true);
 		iexpect.expect(a).toEqual(a);
 		iexpect.expect(b).toEqual(b);
 
+		// Create some functions with bad (incorrect) expectations.
+		// When expectations are wrong, they will throw.
+		// So if these functions don't throw, iexpect is doing something wrong.
 		var badExpect1 = function badExpect1() {
 			iexpect.expect(1).toEqual(2);
 		};
@@ -24,6 +29,8 @@ describe('iexpect', function (){
 			iexpect.expect(a).toEqual(b);
 		};
 
+		// Confirm that the bad expectations throw
+		// the errors we think they will throw.
 		expect(badExpect1).to.throw('Expected 1 to equal 2');
 		expect(badExpect2).to.throw("Expected 'a' to equal true");
 		expect(badExpect3).to.throw("Expected { sport: 'hockey' } to equal { sport: 'hockey' }");
