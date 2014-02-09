@@ -31,9 +31,9 @@ describe('iexpect', function (){
 
 		// Confirm that the bad expectations throw
 		// the errors we think they will throw.
-		expect(badExpect1).to.throw('Expected 1 to equal 2');
-		expect(badExpect2).to.throw("Expected 'a' to equal true");
-		expect(badExpect3).to.throw("Expected { sport: 'hockey' } to equal { sport: 'hockey' }");
+		chai.expect(badExpect1).to.throw('Expected 1 to equal 2');
+		chai.expect(badExpect2).to.throw("Expected 'a' to equal true");
+		chai.expect(badExpect3).to.throw("Expected { sport: 'hockey' } to equal { sport: 'hockey' }");
 	});
 
 	it('not', function() {
@@ -62,19 +62,19 @@ describe('iexpect', function (){
 
 		var expectation = iexpect('a');
 
-		expect(expectation._not).to.equal(false);
-		expect(expectation).to.have.property('not');
+		chai.expect(expectation._not).to.equal(false);
+		chai.expect(expectation).to.have.property('not');
 
 		// 'not' is a getter. Referring to it invokes its get function.
 		// So we are testing the identity of the result of invoking the getter, 
 		// not the identity of the getter itself!
-		expect(expectation.not).to.equal(expectation);
-		expect(expectation._not).to.equal(true);
+		chai.expect(expectation.not).to.equal(expectation);
+		chai.expect(expectation._not).to.equal(true);
 
-		expect(badExpect1).to.throw("Expected 'a' not to equal 'a'");
-		expect(badExpect2).to.throw('Expected { a: 1 } not to deeply equal { a: 1 }');
-		expect(badExpect3).to.throw('Expected undefined not to be undefined');
-		expect(badExpect4).to.throw("Expected true not to be a 'boolean'");
+		chai.expect(badExpect1).to.throw("Expected 'a' not to equal 'a'");
+		chai.expect(badExpect2).to.throw('Expected { a: 1 } not to deeply equal { a: 1 }');
+		chai.expect(badExpect3).to.throw('Expected undefined not to be undefined');
+		chai.expect(badExpect4).to.throw("Expected true not to be a 'boolean'");
 	});
 
 	it('and', function() {
@@ -82,11 +82,11 @@ describe('iexpect', function (){
 
 		expectation.not.toEqual('b');
 
-		expect(expectation._not).to.equal(true);
+		chai.expect(expectation._not).to.equal(true);
 
 		expectation.and.toBeA('string');
 
-		expect(expectation._not).to.equal(false);
+		chai.expect(expectation._not).to.equal(false);
 
 		iexpect([2, 3]).toHaveProperty('0').and.toHaveProperty('1');
 		iexpect({ a: 1 }).not.toHaveProperty('b').and.toHaveProperty('a');
@@ -113,9 +113,9 @@ describe('iexpect', function (){
 			iexpect(123).toBeTrue();
 		};
 
-		expect(badExpect1).to.throw('Expected false to be true');
-		expect(badExpect2).to.throw('Expected undefined to be true');
-		expect(badExpect3).to.throw('Expected 123 to be true');
+		chai.expect(badExpect1).to.throw('Expected false to be true');
+		chai.expect(badExpect2).to.throw('Expected undefined to be true');
+		chai.expect(badExpect3).to.throw('Expected 123 to be true');
 	});
 
 	it('to be undefined', function() {
@@ -134,9 +134,9 @@ describe('iexpect', function (){
 			iexpect({}).toBeUndefined();
 		};
 
-		expect(badExpect1).to.throw("Expected 'a' to be undefined");
-		expect(badExpect2).to.throw("Expected 2 to be undefined");
-		expect(badExpect3).to.throw("Expected {} to be undefined");
+		chai.expect(badExpect1).to.throw("Expected 'a' to be undefined");
+		chai.expect(badExpect2).to.throw("Expected 2 to be undefined");
+		chai.expect(badExpect3).to.throw("Expected {} to be undefined");
 	});
 
 	it('to be a', function() {
@@ -162,9 +162,9 @@ describe('iexpect', function (){
 			iexpect('abc').toBeAn('array');
 		};
 
-		expect(badExpect1).to.throw("Expected 77 to be a 'function'");
-		expect(badExpect2).to.throw("Expected null to be a 'object'");
-		expect(badExpect3).to.throw("Expected 'abc' to be a 'array'");
+		chai.expect(badExpect1).to.throw("Expected 77 to be a 'function'");
+		chai.expect(badExpect2).to.throw("Expected null to be a 'object'");
+		chai.expect(badExpect3).to.throw("Expected 'abc' to be a 'array'");
 	});
 
 	it('to deep equal', function() {
@@ -238,10 +238,10 @@ describe('iexpect', function (){
 			iexpect(new Date(1)).toDeepEqual(new Date(50000));
 		};
 
-		expect(badExpect1).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
-		expect(badExpect2).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
-		expect(badExpect3).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { boolProp: true, boolProp2: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
-		expect(badExpect4).to.throw(iexpect.AssertError, "Expected [Date: Thu, 01 Jan 1970 00:00:00 GMT] to deeply equal [Date: Thu, 01 Jan 1970 00:00:50 GMT]");
+		chai.expect(badExpect1).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
+		chai.expect(badExpect2).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
+		chai.expect(badExpect3).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { boolProp: true, boolProp2: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
+		chai.expect(badExpect4).to.throw(iexpect.AssertError, "Expected [Date: Thu, 01 Jan 1970 00:00:00 GMT] to deeply equal [Date: Thu, 01 Jan 1970 00:00:50 GMT]");
 
 	});
 
@@ -253,26 +253,26 @@ describe('iexpect', function (){
 	});
 
 	it('to string', function() {
-		expect(iexpect._toString(true)).to.equal('true');
-		expect(iexpect._toString(false)).to.equal('false');
-		expect(iexpect._toString(undefined)).to.equal('undefined');
-		expect(iexpect._toString(null)).to.equal('null');
-		expect(iexpect._toString('s')).to.equal("'s'");
-		expect(iexpect._toString(1.234)).to.equal('1.234');
-		expect(iexpect._toString(/test/)).to.equal('/test/');
+		chai.expect(iexpect._toString(true)).to.equal('true');
+		chai.expect(iexpect._toString(false)).to.equal('false');
+		chai.expect(iexpect._toString(undefined)).to.equal('undefined');
+		chai.expect(iexpect._toString(null)).to.equal('null');
+		chai.expect(iexpect._toString('s')).to.equal("'s'");
+		chai.expect(iexpect._toString(1.234)).to.equal('1.234');
+		chai.expect(iexpect._toString(/test/)).to.equal('/test/');
 		
-		expect(iexpect._toString(function(){})).to.equal('[Function: anonymous]');
-		expect(iexpect._toString(function func(){})).to.equal('[Function: func]');
+		chai.expect(iexpect._toString(function(){})).to.equal('[Function: anonymous]');
+		chai.expect(iexpect._toString(function func(){})).to.equal('[Function: func]');
 		
-		expect(iexpect._toString({})).to.equal('{}');
-		expect(iexpect._toString([])).to.equal('[]');
+		chai.expect(iexpect._toString({})).to.equal('{}');
+		chai.expect(iexpect._toString([])).to.equal('[]');
 
-		expect(iexpect._toString([10, 12, 'abc', undefined, {}, []])).to.equal("[10, 12, 'abc', undefined, {}, []]");
-		expect(iexpect._toString({a: 575, b: [5, 6, 7, true]})).to.equal('{ a: 575, b: [5, 6, 7, true] }');
+		chai.expect(iexpect._toString([10, 12, 'abc', undefined, {}, []])).to.equal("[10, 12, 'abc', undefined, {}, []]");
+		chai.expect(iexpect._toString({a: 575, b: [5, 6, 7, true]})).to.equal('{ a: 575, b: [5, 6, 7, true] }');
 		
-		expect(iexpect._toString(new Date(1388534400000))).to.equal('[Date: Wed, 01 Jan 2014 00:00:00 GMT]');
+		chai.expect(iexpect._toString(new Date(1388534400000))).to.equal('[Date: Wed, 01 Jan 2014 00:00:00 GMT]');
 
-		expect(iexpect._toString(new TypeError('abc'))).to.equal('[TypeError: abc]');
+		chai.expect(iexpect._toString(new TypeError('abc'))).to.equal('[TypeError: abc]');
 	});
 
 	it('not throw', function() {
@@ -295,8 +295,8 @@ describe('iexpect', function (){
 
 		expectNoThrow();
 
-		expect(expectNoThrow).to.not.throw();
-		expect(badExpect).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+		chai.expect(expectNoThrow).to.not.throw();
+		chai.expect(badExpect).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 	});
 
 	it('throw without error spec', function() {
@@ -319,8 +319,8 @@ describe('iexpect', function (){
 			iexpect(shouldThrow).toThrow();
 		};
 
-		expect(expectTheThrow).to.not.throw();
-		expect(badExpect).to.throw("Expected [Function: anonymous] to throw");
+		chai.expect(expectTheThrow).to.not.throw();
+		chai.expect(badExpect).to.throw("Expected [Function: anonymous] to throw");
 	});
 
 	it('throw with error spec', function() {
@@ -364,14 +364,14 @@ describe('iexpect', function (){
 			iexpect(shouldThrow).toThrow(newError);
 		};
 
-		expect(shouldThrow).to.throw();
+		chai.expect(shouldThrow).to.throw();
 		expectTheThrow();
 
-		expect(expectTheThrow).to.not.throw();
+		chai.expect(expectTheThrow).to.not.throw();
 
-		expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-		expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-		expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+		chai.expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+		chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+		chai.expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 
 	});
 });
