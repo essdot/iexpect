@@ -5,6 +5,12 @@ describe('iexpect', function (){
 		var a = { sport: 'hockey' };
 		var b = { sport: 'hockey' };
 
+		iexpect.expect(1).toEqual(1);
+		iexpect.expect('a').toEqual('a');
+		iexpect.expect(true).toEqual(true);
+		iexpect.expect(a).toEqual(a);
+		iexpect.expect(b).toEqual(b);
+
 		var badExpect1 = function badExpect1() {
 			iexpect.expect(1).toEqual(2);
 		};
@@ -16,11 +22,6 @@ describe('iexpect', function (){
 		var badExpect3 = function badExpect3() {
 			iexpect.expect(a).toEqual(b);
 		};
-
-		iexpect.expect(1).toEqual(1);
-		iexpect.expect('a').toEqual('a');
-		iexpect.expect(true).toEqual(true);
-		iexpect.expect(a).toEqual(a);
 
 		expect(badExpect1).to.throw('Expected 1 to equal 2');
 		expect(badExpect2).to.throw("Expected 'a' to equal true");
@@ -140,20 +141,20 @@ describe('iexpect', function (){
 		iexpect.expect(true).toBeA('boolean');
 
 		var badExpect1 = function() {
-			iexpect.expect(77).not.toBeA('number');
+			iexpect.expect(77).toBeA('function');
 		};
 
 		var badExpect2 = function() {
-			iexpect.expect(Object.prototype).not.toBeAn('object');
+			iexpect.expect(null).toBeAn('object');
 		};
 
 		var badExpect3 = function() {
-			iexpect.expect([]).not.toBeAn('array');
+			iexpect.expect('abc').toBeAn('array');
 		};
 
-		expect(badExpect1).to.throw("Expected 77 not to be a 'number'");
-		expect(badExpect2).to.throw("Expected {} not to be a 'object'");
-		expect(badExpect3).to.throw("Expected [] not to be a 'array'");
+		expect(badExpect1).to.throw("Expected 77 to be a 'function'");
+		expect(badExpect2).to.throw("Expected null to be a 'object'");
+		expect(badExpect3).to.throw("Expected 'abc' to be a 'array'");
 	});
 
 	it('to deep equal', function() {
