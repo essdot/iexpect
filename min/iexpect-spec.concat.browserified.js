@@ -29,31 +29,29 @@ describe('iexpect', function (){
 	});
 
 	it('not', function() {
-		var expectation = iexpect.expect('a');
+		iexpect.expect(false).not.toBeTrue();
+		iexpect.expect(true).not.toBeFalse();
+		iexpect.expect('a').not.toBeUndefined();
+		iexpect.expect(1).not.toBeA('function');
+		iexpect.expect(true).not.toBeAn('object');
 
-		var goodExpect = function() {
-			iexpect.expect(false).not.toBeTrue();
-			iexpect.expect(true).not.toBeFalse();
-			iexpect.expect('a').not.toBeUndefined();
-			iexpect.expect(1).not.toBeA('function');
-			iexpect.expect(true).not.toBeAn('object');
-		};
-
-		var badExpect1 = function() {
+		var badExpect1 = function badExpect1() {
 			iexpect.expect('a').not.toEqual('a');
 		};
 
-		var badExpect2 = function() {
+		var badExpect2 = function badExpect2() {
 			iexpect.expect({a: 1}).not.toDeepEqual({a: 1});
 		};
 
-		var badExpect3 = function() {
+		var badExpect3 = function badExpect3() {
 			iexpect.expect(undefined).not.toBeUndefined();
 		};
 
-		var badExpect4 = function() {
+		var badExpect4 = function badExpect4() {
 			iexpect.expect(true).not.toBeA('boolean');
 		};
+
+		var expectation = iexpect.expect('a');
 
 		expect(expectation._not).to.equal(false);
 		expect(expectation).to.have.property('not');
@@ -64,7 +62,6 @@ describe('iexpect', function (){
 		expect(expectation.not).to.equal(expectation);
 		expect(expectation._not).to.equal(true);
 
-		expect(goodExpect).to.not.throw();
 		expect(badExpect1).to.throw("Expected 'a' not to equal 'a'");
 		expect(badExpect2).to.throw('Expected { a: 1 } not to deeply equal { a: 1 }');
 		expect(badExpect3).to.throw('Expected undefined not to be undefined');
@@ -72,6 +69,16 @@ describe('iexpect', function (){
 	});
 
 	it('and', function() {
+		var expectation = iexpect.expect('a');
+
+		expectation.not.toEqual('b');
+
+		expect(expectation._not).to.equal(true);
+
+		expectation.and.toBeA('string');
+
+		expect(expectation._not).to.equal(false);
+
 		iexpect.expect([2, 3]).toHaveProperty('0').and.toHaveProperty('1');
 		iexpect.expect({ a: 1 }).not.toHaveProperty('b').and.toHaveProperty('a');
 		iexpect.expect({ a: 1 }).toHaveProperty('a').and.not.toHaveProperty('b');
@@ -181,67 +188,60 @@ describe('iexpect', function (){
 			nullProp: null
 		};
 
-		var objWithLess = {
-			stringProp: 'abc',
-			arrProp: [1, 2, 3],
-			undefProp: undefined,
-			nullProp: null
-		};
+		var time = 1388534400000;
 
-		var objWithMore = {
-			boolProp: true,
-			boolProp2: true,
-			stringProp: 'abc',
-			arrProp: [1, 2, 3],
-			undefProp: undefined,
-			nullProp: null
-		};
+		iexpect.expect(arr1).toDeepEqual([1, 2, 3]);
+		iexpect.expect(arr1).toDeepEqual(arr2);
+		iexpect.expect(obj1).toDeepEqual(obj1);
+		iexpect.expect(obj1).toDeepEqual(obj2);
 
-		var testDate = new Date(2014, 11, 10);
+		iexpect.expect(arr1.concat([9, 16])).toDeepEqual([1, 2, 3, 9, 16]);
+		
+		iexpect.expect({}).toDeepEqual({});
+		iexpect.expect([]).toDeepEqual([]);
 
-		var badExpect1 = function() {
+		iexpect.expect(undefined).toDeepEqual(undefined);
+		iexpect.expect('a').toDeepEqual('a');
+		iexpect.expect(true).toDeepEqual(true);
+		iexpect.expect(null).toDeepEqual(null);
+		iexpect.expect(new Date(time)).toDeepEqual(new Date(time));
+
+		var badExpect1 = function badExpect1() {
 			iexpect.expect(arr1).toDeepEqual([1, 2, 3, 4]);
 		};
 
-		var badExpect2 = function() {
+		var badExpect2 = function badExpect2() {
+			var objWithLess = {
+				stringProp: 'abc',
+				arrProp: [1, 2, 3],
+				undefProp: undefined,
+				nullProp: null
+			};
+
 			iexpect.expect(obj1).toDeepEqual(objWithLess);
 		};
 
-		var badExpect3 = function() {
+		var badExpect3 = function badExpect3() {
+			var objWithMore = {
+				boolProp: true,
+				boolProp2: true,
+				stringProp: 'abc',
+				arrProp: [1, 2, 3],
+				undefProp: undefined,
+				nullProp: null
+			};
+
 			iexpect.expect(obj1).toDeepEqual(objWithMore);
 		};
 
-		var badExpect4 = function() {
+		var badExpect4 = function badExpect4() {
 			iexpect.expect(new Date(1)).toDeepEqual(new Date(50000));
-		};
-
-		var goodExpectFunction = function() {
-			iexpect.expect(arr1).toDeepEqual([1, 2, 3]);
-			iexpect.expect(arr1).toDeepEqual(arr2);
-			iexpect.expect(obj1).toDeepEqual(obj2);
-
-			arr1.push(5);
-			iexpect.expect(arr1).toDeepEqual([1, 2, 3, 5]);
-			
-			iexpect.expect({}).toDeepEqual({});
-			iexpect.expect([]).toDeepEqual([]);
-
-			iexpect.expect(undefined).toDeepEqual(undefined);
-			iexpect.expect('a').toDeepEqual('a');
-			iexpect.expect(true).toDeepEqual(true);
-			iexpect.expect(null).toDeepEqual(null);
-
-			var time = (new Date()).getTime();
-
-			iexpect.expect(new Date(time)).toDeepEqual(new Date(time));
 		};
 
 		expect(badExpect1).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
 		expect(badExpect2).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
 		expect(badExpect3).to.throw(iexpect.AssertError, "Expected { boolProp: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null } to deeply equal { boolProp: true, boolProp2: true, stringProp: 'abc', arrProp: [1, 2, 3], undefProp: undefined, nullProp: null }");
 		expect(badExpect4).to.throw(iexpect.AssertError, "Expected [Date: Thu, 01 Jan 1970 00:00:00 GMT] to deeply equal [Date: Thu, 01 Jan 1970 00:00:50 GMT]");
-
-		expect(goodExpectFunction).to.not.throw();
 
 	});
 
@@ -269,7 +269,7 @@ describe('iexpect', function (){
 		expect(iexpect._toString([10, 12, 'abc', undefined, {}, []])).to.equal("[10, 12, 'abc', undefined, {}, []]");
 		expect(iexpect._toString({a: 575, b: [5, 6, 7, true]})).to.equal('{ a: 575, b: [5, 6, 7, true] }');
 		
-		expect(iexpect._toString(new Date('1/1/2014 00:00:00 GMT'))).to.equal('[Date: Wed, 01 Jan 2014 00:00:00 GMT]');
+		expect(iexpect._toString(new Date(1388534400000))).to.equal('[Date: Wed, 01 Jan 2014 00:00:00 GMT]');
 
 		expect(iexpect._toString(new TypeError('abc'))).to.equal('[TypeError: abc]');
 	});
