@@ -93,6 +93,15 @@ describe('iexpect', function (){
 		iexpect(1).not.toEqual(2).and.toEqual(1);
 		iexpect(true).toBeTrue().and.not.toBeFalse();
 		iexpect([2, 3]).toHaveProperty('0').and.toDeepEqual([2, 3]);
+
+		var shouldThrow = function shouldThrow() {
+			var x = void 0;
+			x.thing.thing;
+		};
+
+		iexpect(shouldThrow).toThrow();
+		iexpect(shouldThrow).toThrow().and.toThrow();
+		iexpect(shouldThrow).toThrow().and.not.toThrow("fake error message").and.not.toThrow("another fake error message");
 	});
 
 	it('to be true', function() {
@@ -343,7 +352,7 @@ describe('iexpect', function (){
 			}
 
 			iexpect(shouldThrow).toThrow(thrownError);
-			iexpect(shouldThrow).not.toThrow("fake error message");
+			iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
 		};
 
 		var badExpect1 = function() {
