@@ -1,6 +1,6 @@
 # iexpect - A Javascript assertion library
 
-iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of assertion functionality. Some examples of the kind of code iexpect allows you to write: 
+iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of assertion functionality. Some examples of the kind of test code iexpect allows you to write: 
 
     expect(1).toEqual(1);
     expect(1).not.toEqual(2);
@@ -26,6 +26,8 @@ Unit tests can be run on the command line, or in a browser. To run tests on the 
 or 
 
     grunt test
+
+
 
 To run them in a browser, run 
 
