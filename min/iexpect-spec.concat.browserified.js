@@ -6,15 +6,15 @@ describe('iexpect', function (){
 		var a = { sport: 'hockey' };
 		var b = { sport: 'hockey' };
 
-		var badExpect1 = function() {
+		var badExpect1 = function badExpect1() {
 			iexpect.expect(1).toEqual(2);
 		};
 
-		var badExpect2 = function() {
+		var badExpect2 = function badExpect2() {
 			iexpect.expect('a').toEqual(true);
 		};
 
-		var badExpect3 = function() {
+		var badExpect3 = function badExpect3() {
 			iexpect.expect(a).toEqual(b);
 		};
 
@@ -88,49 +88,42 @@ describe('iexpect', function (){
 	});
 
 	it('to be true', function() {
-		var goodExpect = function() {
-			iexpect.expect(true).toBeTrue();
-			iexpect.expect(1 == 1).toBeTrue();
-			iexpect.expect(1 < 2).toBeTrue();
-		};
+		iexpect.expect(true).toBeTrue();
+		iexpect.expect(1 == 1).toBeTrue();
+		iexpect.expect(1 < 2).toBeTrue();
 
-		var badExpect1 = function() {
+		var badExpect1 = function badExpect1() {
 			iexpect.expect(false).toBeTrue();
 		};
 
-		var badExpect2 = function() {
+		var badExpect2 = function badExpect2() {
 			iexpect.expect(undefined).toBeTrue();
 		};
 
-		var badExpect3 = function() {
+		var badExpect3 = function badExpect3() {
 			iexpect.expect(123).toBeTrue();
 		};
 
-		expect(goodExpect).to.not.throw();
 		expect(badExpect1).to.throw('Expected false to be true');
 		expect(badExpect2).to.throw('Expected undefined to be true');
 		expect(badExpect3).to.throw('Expected 123 to be true');
 	});
 
 	it('to be undefined', function() {
-		var goodExpect = function() {
-			iexpect.expect(undefined).toBeUndefined();
-			iexpect.expect(void 0).toBeUndefined();
-		};
+		iexpect.expect(undefined).toBeUndefined();
+		iexpect.expect(void 0).toBeUndefined();
 
-		var badExpect1 = function() {
+		var badExpect1 = function badExpect1() {
 			iexpect.expect('a').toBeUndefined();
 		};
 
-		var badExpect2 = function() {
+		var badExpect2 = function badExpect2() {
 			iexpect.expect(2).toBeUndefined();
 		};
 
-		var badExpect3 = function() {
+		var badExpect3 = function badExpect3() {
 			iexpect.expect({}).toBeUndefined();
 		};
-
-		expect(goodExpect).to.not.throw();
 
 		expect(badExpect1).to.throw("Expected 'a' to be undefined");
 		expect(badExpect2).to.throw("Expected 2 to be undefined");
@@ -138,16 +131,14 @@ describe('iexpect', function (){
 	});
 
 	it('to be a', function() {
-		var goodExpect = function() {
-			iexpect.expect(Object.prototype.toString).toBeA('function');
-			iexpect.expect({}).toBeAn('object');
-			iexpect.expect(iexpect).toBeAn('object');
-			iexpect.expect('abc').toBeA('string');
-			iexpect.expect([]).toBeAn('array');
-			iexpect.expect(77).toBeA('number');
-			iexpect.expect(new Date()).toBeA('date');
-			iexpect.expect(true).toBeA('boolean');
-		};
+		iexpect.expect(Object.prototype.toString).toBeA('function');
+		iexpect.expect({}).toBeAn('object');
+		iexpect.expect(iexpect).toBeAn('object');
+		iexpect.expect('abc').toBeA('string');
+		iexpect.expect([]).toBeAn('array');
+		iexpect.expect(77).toBeA('number');
+		iexpect.expect(new Date()).toBeA('date');
+		iexpect.expect(true).toBeA('boolean');
 
 		var badExpect1 = function() {
 			iexpect.expect(77).not.toBeA('number');
@@ -160,8 +151,6 @@ describe('iexpect', function (){
 		var badExpect3 = function() {
 			iexpect.expect([]).not.toBeAn('array');
 		};
-
-		expect(goodExpect).to.not.throw();
 
 		expect(badExpect1).to.throw("Expected 77 not to be a 'number'");
 		expect(badExpect2).to.throw("Expected {} not to be a 'object'");
@@ -191,6 +180,7 @@ describe('iexpect', function (){
 		var time = 1388534400000;
 
 		iexpect.expect(arr1).toDeepEqual([1, 2, 3]);
+		iexpect.expect(arr1).toDeepEqual(arr1);
 		iexpect.expect(arr1).toDeepEqual(arr2);
 		iexpect.expect(obj1).toDeepEqual(obj1);
 		iexpect.expect(obj1).toDeepEqual(obj2);
@@ -249,6 +239,7 @@ describe('iexpect', function (){
 		iexpect.expect({ theProp: 23 }).toHaveProperty('theProp');
 		iexpect.expect({ theProp: 23 }).not.toHaveProperty('z');
 		iexpect.expect([1]).toHaveProperty('0');
+		iexpect.expect(Object).toHaveProperty('prototype');
 	});
 
 	it('to string', function() {
