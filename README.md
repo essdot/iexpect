@@ -1,11 +1,14 @@
 # iexpect - A Javascript assertion library
 
-iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of functionality. Some examples of the kind of code iexpect allows you to write: 
+iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of assertion functionality. Some examples of the kind of code iexpect allows you to write: 
 
     expect(1).toEqual(1);
     expect(1).not.toEqual(2);
     expect(myFunction).not.toThrow();
     expect(myFunction).toBeA('function');
+    expect(void 0).toBeUndefined();
+    expect({ a: 1, b: 2 }).toHaveProperty('a').and.toHaveProperty('b');
+    expect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 
 iexpect's unit tests use [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Grunt tasks are provided for building, concat/minifying, running tests, etc. Browserify is used to resolve the node modules into a single script.
 
