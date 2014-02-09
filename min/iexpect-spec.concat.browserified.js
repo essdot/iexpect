@@ -584,17 +584,24 @@ describe('iexpect', function (){
 			argsToPass.push(this._actual);
 
 			var result;
+			var resultObj = {};
 
 			result = o.assertFunction.apply(this, argsToPass);
 
-			if (this.resultIsGood(result)) {
+			if (result === true || result === false) {
+				resultObj.value = result;
+			} else {
+				resultObj = result;
+			}
+
+			if (this.resultIsGood(resultObj.value)) {
 				return this;
 			}
 
 			//if assert function set the error message,
 			//no need to construct the error message
-			if(this.errorMessage) {
-				errorMessage = this.errorMessage;
+			if(resultObj.errorMessage) {
+				errorMessage = resultObj.errorMessage;
 			} else {
 				expectedValue = o.expectedValue || args[0];
 				
@@ -748,6 +755,7 @@ describe('iexpect', function (){
 
 			var didThrow = false;
 			var thrownError;
+			var assertResult = {};
 
 			try {
 				func.call(null);
@@ -757,35 +765,39 @@ describe('iexpect', function (){
 			}
 
 			if(!didThrow) {
-				this.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', _toString(func));
-				return false;
+				assertResult.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', _toString(func));
+				assertResult.value = false;
+				return assertResult;
 			}
 
 			// No parameters passed to toThrow()
 			if (args[0] === undefined) {
-				this.errorMessage = 'Expected {{actual}} not to throw but {{thrown}} was thrown'
+				assertResult.errorMessage = 'Expected {{actual}} not to throw but {{thrown}} was thrown'
 					.replace('{{actual}}', _toString(func))
 					.replace('{{thrown}}', _toString(thrownError));
 
-				return true;
+				assertResult.value = true;
+				return assertResult;
 			}
 
 			var errorSpec = errorSpecFromArgs(args);
 			var errorMatches = errorMatchesSpec(errorSpec, thrownError);
 
 			if (errorMatches) {
-				this.errorMessage = 'Expected {{actual}} not to throw an error like {{expected}} but {{thrown}} was thrown'
+				assertResult.errorMessage = 'Expected {{actual}} not to throw an error like {{expected}} but {{thrown}} was thrown'
 					.replace('{{actual}}', _toString(func))
 					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
 					.replace('{{thrown}}', _toString(thrownError));
 			} else {
-				this.errorMessage = 'Expected {{actual}} to throw an error like {{expected}} but {{thrown}} was thrown'
+				assertResult.errorMessage = 'Expected {{actual}} to throw an error like {{expected}} but {{thrown}} was thrown'
 					.replace('{{actual}}', _toString(func))
 					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
 					.replace('{{thrown}}', _toString(thrownError));
 			}
 
-			return errorMatches;
+			assertResult.value = errorMatches;
+
+			return assertResult;
 		}
 	});
 
@@ -793,7 +805,6 @@ describe('iexpect', function (){
 		configurable: true,
 		get: function() {
 			this._not = false;
-			this.errorMessage = undefined;
 
 			return this;
 		}
