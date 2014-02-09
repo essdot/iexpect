@@ -46,22 +46,9 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 
 ## Running tests
 
-Unit tests can be run on the command line, or in a browser. To run tests on the command line, run 
+Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `npm test` or `grunt test`.
 
-    npm test 
-or 
-
-    grunt test
-
-
-
-To run them in a browser, run 
-
-    node bin/serve 
-or 
-
-    grunt server 
-and browse to [http://localhost:4444](http://localhost:4444).
+To run the tests in a browser, run `node bin/serve` or `grunt server` and browse to [http://localhost:4444](http://localhost:4444).
 
 ## Maintainer
 
