@@ -5,6 +5,12 @@ describe('iexpect', function (){
 		var a = { sport: 'hockey' };
 		var b = { sport: 'hockey' };
 
+		iexpect.expect(1).toEqual(1);
+		iexpect.expect('a').toEqual('a');
+		iexpect.expect(true).toEqual(true);
+		iexpect.expect(a).toEqual(a);
+		iexpect.expect(b).toEqual(b);
+
 		var badExpect1 = function badExpect1() {
 			iexpect.expect(1).toEqual(2);
 		};
@@ -16,11 +22,6 @@ describe('iexpect', function (){
 		var badExpect3 = function badExpect3() {
 			iexpect.expect(a).toEqual(b);
 		};
-
-		iexpect.expect(1).toEqual(1);
-		iexpect.expect('a').toEqual('a');
-		iexpect.expect(true).toEqual(true);
-		iexpect.expect(a).toEqual(a);
 
 		expect(badExpect1).to.throw('Expected 1 to equal 2');
 		expect(badExpect2).to.throw("Expected 'a' to equal true");
