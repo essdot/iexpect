@@ -33,7 +33,7 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
     * `iexpect({ a: 1 }).toHaveProperty('a')`
     * `iexpect([ 1 ]).toHaveProperty('0')`
 * not: Reverse expectations 
-    * `iexpect({ a: 1 }).not.toThrow()`
+    * `iexpect(myFunction).not.toThrow()`
 * and: Chain expectations (`iexpect([1, 2, 3]))
     * `iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])`
 
