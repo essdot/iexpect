@@ -1,6 +1,6 @@
 # iexpect - A Javascript assertion library
 
-iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of assertion functionality. Some examples of the kind of test code iexpect allows you to write: 
+iexpect is a Javascript library that lets you write assertions for unit tests. As the name implies, it implements the 'expect' style of BDD test assertions. This is a personal project, implementing a basic set of assertion functionality. Some examples of the kind of test code iexpect allows you to write: 
 
     iexpect(1).toEqual(1);
     iexpect(1).not.toEqual(2);
@@ -14,7 +14,7 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 
 ## Functionality
 
-* toEqual: Compares values with ===
+* toEqual: Compares values with triple-equals
 * toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
 * toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
