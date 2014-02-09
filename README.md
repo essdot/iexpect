@@ -12,6 +12,19 @@ iexpect is a Javascript library that lets you write assertions for unit tests. A
 
 iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Grunt tasks are provided for building, concat/minifying, running tests, etc. Browserify is used to resolve the node modules into a single script.
 
+## Functionality
+
+* toEqual: Compares values with ===
+* toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
+* toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
+* toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
+* toThrow: Tests whether a function throws. Optionally set expectiations about the type and message of the error thrown.
+* toHaveProperty: Test whether object has a property (with Object.prototype.hasOwnProperty)
+* not: Reverse expectations 
+    * `iexpect(myFunction).not.toThrow()`
+* and: Chain expectations (`iexpect([1, 2, 3]))
+    * `iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])`
+
 ## Installing
 
     sh ./install.sh
