@@ -197,8 +197,11 @@
 
 	iexpect.Assert.prototype.makeResolver = function(o) {
 		return function resolve() {
-			var args = [].slice.call(arguments);
+			var errorMessage;
+			var expectedValue;
+			var templateToUse;
 
+			var args = [].slice.call(arguments);
 			var argsToPass = args.slice();
 			argsToPass.push(this._actual);
 
@@ -213,23 +216,26 @@
 			//if assert function set the error message,
 			//no need to construct the error message
 			if(this.errorMessage) {
-				throw new iexpect.AssertError({ errorMessage: this.errorMessage });
+				errorMessage = this.errorMessage;
+			} else {
+				expectedValue = o.expectedValue || args[0];
+				
+				templateToUse = this._not ? o.notTemplate : o.template;
+				
+				if (!templateToUse) {
+					templateToUse = 'Assertion failed, expected was: {{expected}}, actual was {{actual}}';
+				}
+
+				errorMessage = templateToUse
+						.replace("{{expected}}", _toString(expectedValue))
+						.replace("{{actual}}", _toString(this._actual));
 			}
 
-			var msg;
-			var expectedValue = o.expectedValue || args[0];
-			
-			var templateToUse = this._not ? o.notTemplate : o.template;
-			
-			if (!templateToUse) {
-				templateToUse = 'Assertion failed, expected was: {{expected}}, actual was {{actual}}';
+			if (o.processErrorMessage) {
+				errorMessage = o.processErrorMessage.call(this, errorMessage, expectedValue, this._actual);
 			}
 
-			msg = templateToUse
-					.replace("{{expected}}", _toString(expectedValue))
-					.replace("{{actual}}", _toString(this._actual));
-
-			throw new iexpect.AssertError({ errorMessage: msg });
+			throw new iexpect.AssertError({ errorMessage: errorMessage });
 		};
 	};
 
@@ -326,6 +332,11 @@
 
 			return false;
 		},
+		processErrorMessage: function(errMsg, expected, actual) {
+			return errMsg.replace("to be a '" + expected + "'", "to be a " + expected)
+					.replace('to be a a', 'to be an a')
+					.replace('to be a o', 'to be an o');
+		},
 		template: 'Expected {{actual}} to be a {{expected}}',
 		notTemplate: 'Expected {{actual}} not to be a {{expected}}'
 	});
@@ -353,6 +364,8 @@
 	iexpect.Assert.prototype.toThrow = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function() {
 			var args = [].slice.call(arguments);
+
+			// function is last argument, after any error spec
 			var func = args.pop();
 
 			var didThrow = false;
@@ -370,6 +383,7 @@
 				return false;
 			}
 
+			// No parameters passed to toThrow()
 			if (args[0] === undefined) {
 				this.errorMessage = 'Expected {{actual}} not to throw but {{thrown}} was thrown'
 					.replace('{{actual}}', _toString(func))
@@ -401,6 +415,7 @@
 		configurable: true,
 		get: function() {
 			this._not = false;
+			this.errorMessage = undefined;
 
 			return this;
 		}

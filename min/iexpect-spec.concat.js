@@ -73,7 +73,7 @@ describe('iexpect', function (){
 		chai.expect(badExpect1).to.throw("Expected 'a' not to equal 'a'");
 		chai.expect(badExpect2).to.throw('Expected { a: 1 } not to deeply equal { a: 1 }');
 		chai.expect(badExpect3).to.throw('Expected undefined not to be undefined');
-		chai.expect(badExpect4).to.throw("Expected true not to be a 'boolean'");
+		chai.expect(badExpect4).to.throw("Expected true not to be a boolean");
 	});
 
 	it('and', function() {
@@ -158,12 +158,12 @@ describe('iexpect', function (){
 		};
 
 		var badExpect3 = function() {
-			iexpect('abc').toBeAn('array');
+			iexpect('array').toBeAn('array');
 		};
 
-		chai.expect(badExpect1).to.throw("Expected 77 to be a 'function'");
-		chai.expect(badExpect2).to.throw("Expected null to be a 'object'");
-		chai.expect(badExpect3).to.throw("Expected 'abc' to be a 'array'");
+		chai.expect(badExpect1).to.throw("Expected 77 to be a function");
+		chai.expect(badExpect2).to.throw("Expected null to be an object");
+		chai.expect(badExpect3).to.throw("Expected 'array' to be an array");
 	});
 
 	it('to deep equal', function() {
