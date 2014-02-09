@@ -306,6 +306,10 @@
 				return typeof actual === 'function';
 			}
 
+			if (expected === 'regex' || expected === 'regexp' || expected === 'reg exp') {
+				return actual instanceof RegExp;
+			}
+
 			if (expected === 'date') {
 				return actual instanceof Date;
 			}

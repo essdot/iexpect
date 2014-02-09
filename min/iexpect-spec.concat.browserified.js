@@ -35,6 +35,7 @@ describe('iexpect', function (){
 		iexpect.expect('a').not.toBeUndefined();
 		iexpect.expect(1).not.toBeA('function');
 		iexpect.expect(true).not.toBeAn('object');
+		iexpect.expect('1234').not.toBeA('regex');
 
 		var badExpect1 = function badExpect1() {
 			iexpect.expect('a').not.toEqual('a');
@@ -140,22 +141,23 @@ describe('iexpect', function (){
 		iexpect.expect(77).toBeA('number');
 		iexpect.expect(new Date()).toBeA('date');
 		iexpect.expect(true).toBeA('boolean');
+		iexpect.expect(/abcd/).toBeA('regex');
 
 		var badExpect1 = function() {
-			iexpect.expect(77).not.toBeA('number');
+			iexpect.expect(77).toBeA('function');
 		};
 
 		var badExpect2 = function() {
-			iexpect.expect(Object.prototype).not.toBeAn('object');
+			iexpect.expect(null).toBeAn('object');
 		};
 
 		var badExpect3 = function() {
-			iexpect.expect([]).not.toBeAn('array');
+			iexpect.expect('abc').toBeAn('array');
 		};
 
-		expect(badExpect1).to.throw("Expected 77 not to be a 'number'");
-		expect(badExpect2).to.throw("Expected {} not to be a 'object'");
-		expect(badExpect3).to.throw("Expected [] not to be a 'array'");
+		expect(badExpect1).to.throw("Expected 77 to be a 'function'");
+		expect(badExpect2).to.throw("Expected null to be a 'object'");
+		expect(badExpect3).to.throw("Expected 'abc' to be a 'array'");
 	});
 
 	it('to deep equal', function() {
@@ -673,6 +675,10 @@ describe('iexpect', function (){
 
 			if (expected === 'function') {
 				return typeof actual === 'function';
+			}
+
+			if (expected === 'regex' || expected === 'regexp' || expected === 'reg exp') {
+				return actual instanceof RegExp;
 			}
 
 			if (expected === 'date') {

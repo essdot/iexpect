@@ -34,6 +34,7 @@ describe('iexpect', function (){
 		iexpect.expect('a').not.toBeUndefined();
 		iexpect.expect(1).not.toBeA('function');
 		iexpect.expect(true).not.toBeAn('object');
+		iexpect.expect('1234').not.toBeA('regex');
 
 		var badExpect1 = function badExpect1() {
 			iexpect.expect('a').not.toEqual('a');
@@ -139,6 +140,7 @@ describe('iexpect', function (){
 		iexpect.expect(77).toBeA('number');
 		iexpect.expect(new Date()).toBeA('date');
 		iexpect.expect(true).toBeA('boolean');
+		iexpect.expect(/abcd/).toBeA('regex');
 
 		var badExpect1 = function() {
 			iexpect.expect(77).toBeA('function');
