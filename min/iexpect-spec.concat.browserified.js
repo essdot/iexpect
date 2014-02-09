@@ -8,25 +8,25 @@ describe('iexpect', function (){
 
 		// Run iexpect's assertions.
 		// If they fail, the test will not proceed.
-		iexpect.expect(1).toEqual(1);
-		iexpect.expect('a').toEqual('a');
-		iexpect.expect(true).toEqual(true);
-		iexpect.expect(a).toEqual(a);
-		iexpect.expect(b).toEqual(b);
+		iexpect(1).toEqual(1);
+		iexpect('a').toEqual('a');
+		iexpect(true).toEqual(true);
+		iexpect(a).toEqual(a);
+		iexpect(b).toEqual(b);
 
 		// Create some functions with bad (incorrect) expectations.
 		// When expectations are wrong, they will throw.
 		// So if these functions don't throw, iexpect is doing something wrong.
 		var badExpect1 = function badExpect1() {
-			iexpect.expect(1).toEqual(2);
+			iexpect(1).toEqual(2);
 		};
 
 		var badExpect2 = function badExpect2() {
-			iexpect.expect('a').toEqual(true);
+			iexpect('a').toEqual(true);
 		};
 
 		var badExpect3 = function badExpect3() {
-			iexpect.expect(a).toEqual(b);
+			iexpect(a).toEqual(b);
 		};
 
 		// Confirm that the bad expectations throw
@@ -37,30 +37,30 @@ describe('iexpect', function (){
 	});
 
 	it('not', function() {
-		iexpect.expect(false).not.toBeTrue();
-		iexpect.expect(true).not.toBeFalse();
-		iexpect.expect('a').not.toBeUndefined();
-		iexpect.expect(1).not.toBeA('function');
-		iexpect.expect(true).not.toBeAn('object');
-		iexpect.expect('1234').not.toBeA('regex');
+		iexpect(false).not.toBeTrue();
+		iexpect(true).not.toBeFalse();
+		iexpect('a').not.toBeUndefined();
+		iexpect(1).not.toBeA('function');
+		iexpect(true).not.toBeAn('object');
+		iexpect('1234').not.toBeA('regex');
 
 		var badExpect1 = function badExpect1() {
-			iexpect.expect('a').not.toEqual('a');
+			iexpect('a').not.toEqual('a');
 		};
 
 		var badExpect2 = function badExpect2() {
-			iexpect.expect({a: 1}).not.toDeepEqual({a: 1});
+			iexpect({a: 1}).not.toDeepEqual({a: 1});
 		};
 
 		var badExpect3 = function badExpect3() {
-			iexpect.expect(undefined).not.toBeUndefined();
+			iexpect(undefined).not.toBeUndefined();
 		};
 
 		var badExpect4 = function badExpect4() {
-			iexpect.expect(true).not.toBeA('boolean');
+			iexpect(true).not.toBeA('boolean');
 		};
 
-		var expectation = iexpect.expect('a');
+		var expectation = iexpect('a');
 
 		expect(expectation._not).to.equal(false);
 		expect(expectation).to.have.property('not');
@@ -78,7 +78,7 @@ describe('iexpect', function (){
 	});
 
 	it('and', function() {
-		var expectation = iexpect.expect('a');
+		var expectation = iexpect('a');
 
 		expectation.not.toEqual('b');
 
@@ -88,29 +88,29 @@ describe('iexpect', function (){
 
 		expect(expectation._not).to.equal(false);
 
-		iexpect.expect([2, 3]).toHaveProperty('0').and.toHaveProperty('1');
-		iexpect.expect({ a: 1 }).not.toHaveProperty('b').and.toHaveProperty('a');
-		iexpect.expect({ a: 1 }).toHaveProperty('a').and.not.toHaveProperty('b');
-		iexpect.expect(1).not.toEqual(2).and.toEqual(1);
-		iexpect.expect(true).toBeTrue().and.not.toBeFalse();
-		iexpect.expect([2, 3]).toHaveProperty('0').and.toDeepEqual([2, 3]);
+		iexpect([2, 3]).toHaveProperty('0').and.toHaveProperty('1');
+		iexpect({ a: 1 }).not.toHaveProperty('b').and.toHaveProperty('a');
+		iexpect({ a: 1 }).toHaveProperty('a').and.not.toHaveProperty('b');
+		iexpect(1).not.toEqual(2).and.toEqual(1);
+		iexpect(true).toBeTrue().and.not.toBeFalse();
+		iexpect([2, 3]).toHaveProperty('0').and.toDeepEqual([2, 3]);
 	});
 
 	it('to be true', function() {
-		iexpect.expect(true).toBeTrue();
-		iexpect.expect(1 == 1).toBeTrue();
-		iexpect.expect(1 < 2).toBeTrue();
+		iexpect(true).toBeTrue();
+		iexpect(1 == 1).toBeTrue();
+		iexpect(1 < 2).toBeTrue();
 
 		var badExpect1 = function badExpect1() {
-			iexpect.expect(false).toBeTrue();
+			iexpect(false).toBeTrue();
 		};
 
 		var badExpect2 = function badExpect2() {
-			iexpect.expect(undefined).toBeTrue();
+			iexpect(undefined).toBeTrue();
 		};
 
 		var badExpect3 = function badExpect3() {
-			iexpect.expect(123).toBeTrue();
+			iexpect(123).toBeTrue();
 		};
 
 		expect(badExpect1).to.throw('Expected false to be true');
@@ -119,19 +119,19 @@ describe('iexpect', function (){
 	});
 
 	it('to be undefined', function() {
-		iexpect.expect(undefined).toBeUndefined();
-		iexpect.expect(void 0).toBeUndefined();
+		iexpect(undefined).toBeUndefined();
+		iexpect(void 0).toBeUndefined();
 
 		var badExpect1 = function badExpect1() {
-			iexpect.expect('a').toBeUndefined();
+			iexpect('a').toBeUndefined();
 		};
 
 		var badExpect2 = function badExpect2() {
-			iexpect.expect(2).toBeUndefined();
+			iexpect(2).toBeUndefined();
 		};
 
 		var badExpect3 = function badExpect3() {
-			iexpect.expect({}).toBeUndefined();
+			iexpect({}).toBeUndefined();
 		};
 
 		expect(badExpect1).to.throw("Expected 'a' to be undefined");
@@ -140,26 +140,26 @@ describe('iexpect', function (){
 	});
 
 	it('to be a', function() {
-		iexpect.expect(Object.prototype.toString).toBeA('function');
-		iexpect.expect({}).toBeAn('object');
-		iexpect.expect(iexpect).toBeAn('object');
-		iexpect.expect('abc').toBeA('string');
-		iexpect.expect([]).toBeAn('array');
-		iexpect.expect(77).toBeA('number');
-		iexpect.expect(new Date()).toBeA('date');
-		iexpect.expect(true).toBeA('boolean');
-		iexpect.expect(/abcd/).toBeA('regex');
+		iexpect(Object.prototype.toString).toBeA('function');
+		iexpect({}).toBeAn('object');
+		iexpect(iexpect).toBeAn('object');
+		iexpect('abc').toBeA('string');
+		iexpect([]).toBeAn('array');
+		iexpect(77).toBeA('number');
+		iexpect(new Date()).toBeA('date');
+		iexpect(true).toBeA('boolean');
+		iexpect(/abcd/).toBeA('regex');
 
 		var badExpect1 = function() {
-			iexpect.expect(77).toBeA('function');
+			iexpect(77).toBeA('function');
 		};
 
 		var badExpect2 = function() {
-			iexpect.expect(null).toBeAn('object');
+			iexpect(null).toBeAn('object');
 		};
 
 		var badExpect3 = function() {
-			iexpect.expect('abc').toBeAn('array');
+			iexpect('abc').toBeAn('array');
 		};
 
 		expect(badExpect1).to.throw("Expected 77 to be a 'function'");
@@ -189,25 +189,25 @@ describe('iexpect', function (){
 
 		var time = 1388534400000;
 
-		iexpect.expect(arr1).toDeepEqual([1, 2, 3]);
-		iexpect.expect(arr1).toDeepEqual(arr1);
-		iexpect.expect(arr1).toDeepEqual(arr2);
-		iexpect.expect(obj1).toDeepEqual(obj1);
-		iexpect.expect(obj1).toDeepEqual(obj2);
+		iexpect(arr1).toDeepEqual([1, 2, 3]);
+		iexpect(arr1).toDeepEqual(arr1);
+		iexpect(arr1).toDeepEqual(arr2);
+		iexpect(obj1).toDeepEqual(obj1);
+		iexpect(obj1).toDeepEqual(obj2);
 
-		iexpect.expect(arr1.concat([9, 16])).toDeepEqual([1, 2, 3, 9, 16]);
+		iexpect(arr1.concat([9, 16])).toDeepEqual([1, 2, 3, 9, 16]);
 		
-		iexpect.expect({}).toDeepEqual({});
-		iexpect.expect([]).toDeepEqual([]);
+		iexpect({}).toDeepEqual({});
+		iexpect([]).toDeepEqual([]);
 
-		iexpect.expect(undefined).toDeepEqual(undefined);
-		iexpect.expect('a').toDeepEqual('a');
-		iexpect.expect(true).toDeepEqual(true);
-		iexpect.expect(null).toDeepEqual(null);
-		iexpect.expect(new Date(time)).toDeepEqual(new Date(time));
+		iexpect(undefined).toDeepEqual(undefined);
+		iexpect('a').toDeepEqual('a');
+		iexpect(true).toDeepEqual(true);
+		iexpect(null).toDeepEqual(null);
+		iexpect(new Date(time)).toDeepEqual(new Date(time));
 
 		var badExpect1 = function badExpect1() {
-			iexpect.expect(arr1).toDeepEqual([1, 2, 3, 4]);
+			iexpect(arr1).toDeepEqual([1, 2, 3, 4]);
 		};
 
 		var badExpect2 = function badExpect2() {
@@ -218,7 +218,7 @@ describe('iexpect', function (){
 				nullProp: null
 			};
 
-			iexpect.expect(obj1).toDeepEqual(objWithLess);
+			iexpect(obj1).toDeepEqual(objWithLess);
 		};
 
 		var badExpect3 = function badExpect3() {
@@ -231,11 +231,11 @@ describe('iexpect', function (){
 				nullProp: null
 			};
 
-			iexpect.expect(obj1).toDeepEqual(objWithMore);
+			iexpect(obj1).toDeepEqual(objWithMore);
 		};
 
 		var badExpect4 = function badExpect4() {
-			iexpect.expect(new Date(1)).toDeepEqual(new Date(50000));
+			iexpect(new Date(1)).toDeepEqual(new Date(50000));
 		};
 
 		expect(badExpect1).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
@@ -246,10 +246,10 @@ describe('iexpect', function (){
 	});
 
 	it('to have property', function() {
-		iexpect.expect({ theProp: 23 }).toHaveProperty('theProp');
-		iexpect.expect({ theProp: 23 }).not.toHaveProperty('z');
-		iexpect.expect([1]).toHaveProperty('0');
-		iexpect.expect(Object).toHaveProperty('prototype');
+		iexpect({ theProp: 23 }).toHaveProperty('theProp');
+		iexpect({ theProp: 23 }).not.toHaveProperty('z');
+		iexpect([1]).toHaveProperty('0');
+		iexpect(Object).toHaveProperty('prototype');
 	});
 
 	it('to string', function() {
@@ -286,11 +286,11 @@ describe('iexpect', function (){
 		};
 
 		var expectNoThrow = function() {
-			iexpect.expect(shouldntThrow).not.toThrow();
+			iexpect(shouldntThrow).not.toThrow();
 		};
 
 		var badExpect = function() {
-			iexpect.expect(shouldThrow).not.toThrow();
+			iexpect(shouldThrow).not.toThrow();
 		};
 
 		expectNoThrow();
@@ -310,13 +310,13 @@ describe('iexpect', function (){
 		};
 
 		var badExpect = function() {
-			iexpect.expect(shouldntThrow).toThrow();
+			iexpect(shouldntThrow).toThrow();
 		};
 
 		var expectTheThrow = function() {
 			var thrownError;
 
-			iexpect.expect(shouldThrow).toThrow();
+			iexpect(shouldThrow).toThrow();
 		};
 
 		expect(expectTheThrow).to.not.throw();
@@ -332,10 +332,10 @@ describe('iexpect', function (){
 		var expectTheThrow = function() {
 			var thrownError;
 
-			iexpect.expect(shouldThrow).toThrow(TypeError);
-			iexpect.expect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
-			iexpect.expect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
-			iexpect.expect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
+			iexpect(shouldThrow).toThrow(TypeError);
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
+			iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
 			
 			try {
 				shouldThrow();
@@ -343,25 +343,25 @@ describe('iexpect', function (){
 				thrownError = e;
 			}
 
-			iexpect.expect(shouldThrow).toThrow(thrownError);
-			iexpect.expect(shouldThrow).not.toThrow("fake error message");
+			iexpect(shouldThrow).toThrow(thrownError);
+			iexpect(shouldThrow).not.toThrow("fake error message");
 		};
 
 		var badExpect1 = function() {
 			function FakeError(){}
 
-			iexpect.expect(shouldThrow).toThrow(FakeError);
+			iexpect(shouldThrow).toThrow(FakeError);
 		};
 
 		var badExpect2 = function() {
-			iexpect.expect(shouldThrow).toThrow('a fake error message');
+			iexpect(shouldThrow).toThrow('a fake error message');
 		};
 
 		var badExpect3 = function() {
 			var newError = new RangeError();
 			newError.message = 'fake error message';
 
-			iexpect.expect(shouldThrow).toThrow(newError);
+			iexpect(shouldThrow).toThrow(newError);
 		};
 
 		expect(shouldThrow).to.throw();
@@ -379,15 +379,17 @@ describe('iexpect', function (){
 (function iexpectModule() {
 	"use strict";
 
-	var iexpect = {};
+	var iexpect;
 
-	iexpect.expect = function (actualValue) {
+	iexpect = function (actualValue) {
 		var a = new iexpect.Assert();
 		a._actual = actualValue;
 		a._not = false;
 
 		return a;
 	};
+
+	iexpect.expect = iexpect;
 
 	iexpect.Assert = function Assert() {};
 

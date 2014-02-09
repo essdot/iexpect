@@ -1,15 +1,17 @@
 (function iexpectModule() {
 	"use strict";
 
-	var iexpect = {};
+	var iexpect;
 
-	iexpect.expect = function (actualValue) {
+	iexpect = function (actualValue) {
 		var a = new iexpect.Assert();
 		a._actual = actualValue;
 		a._not = false;
 
 		return a;
 	};
+
+	iexpect.expect = iexpect;
 
 	iexpect.Assert = function Assert() {};
 
