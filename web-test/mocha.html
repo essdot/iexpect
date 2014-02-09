@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+
+  <link rel="stylesheet" href="/web-test/mocha.css" />
+
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="test"></div>
+
+  <script src="/web-test/chai.js"></script>
+  <script src="/web-test/mocha.js"></script>
+  
+  <script>
+    expect = chai.expect;
+    mocha.setup('bdd');
+  </script>
+
+  <script src="/min/iexpect-spec.concat.browserified.js"></script>
+
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+
+  <!-- livereload snippet 
+  <script src="http://localhost:35729/livereload.js"></script>
+  -->
+</body>
+</html>

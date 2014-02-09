@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+var express   = require('express'),
+    fs        = require('fs'),
+    _         = require('underscore'),
+
+    site      = express.createServer(),
+    staticDir = express['static'];
+
+var server = function(opts) {
+  opts = _.extend({
+    port :      4444,
+    baseDir :   './'
+  }, opts || {});
+
+  site.configure(function() {
+    ['min', 'web-test', 'test-lib'].forEach(function(dir) {
+      site.use('/' + dir, staticDir(opts.baseDir + dir));
+    });
+    site.use(express.bodyParser());
+  });
+
+  site.get("/", function(req, res) {
+    fs.createReadStream(opts.baseDir + 'web-test/mocha.html').pipe(res);
+  });
+
+  site.listen(opts.port);
+
+  console.log("\n\nServing at http://localhost:" + opts.port);
+};
+
+server({ port : 4444, dev : true });
