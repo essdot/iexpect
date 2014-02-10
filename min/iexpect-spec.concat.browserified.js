@@ -287,7 +287,7 @@ describe('iexpect', function (){
 		chai.expect(iexpect._toString(new TypeError('abc'))).to.equal('[TypeError: abc]');
 	});
 
-	it('not throw', function() {
+	describe('throw', function() {
 		var shouldThrow = function() {
 			var obj = void 0;
 			return obj.thing.thing;
@@ -295,34 +295,6 @@ describe('iexpect', function (){
 
 		var shouldntThrow = function() {
 			return 1;
-		};
-
-		var expectNoThrow = function() {
-			iexpect(shouldntThrow).not.toThrow();
-		};
-
-		var badExpect = function() {
-			iexpect(shouldThrow).not.toThrow();
-		};
-
-		expectNoThrow();
-
-		chai.expect(expectNoThrow).to.not.throw();
-		chai.expect(badExpect).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-	});
-
-	it('throw without error spec', function() {
-		var shouldThrow = function() {
-			var obj = void 0;
-			return obj.thing.thing;
-		};
-
-		var shouldntThrow = function() {
-			return 1;
-		};
-
-		var badExpect = function() {
-			iexpect(shouldntThrow).toThrow();
 		};
 
 		var expectTheThrow = function() {
@@ -331,93 +303,154 @@ describe('iexpect', function (){
 			iexpect(shouldThrow).toThrow();
 		};
 
-		chai.expect(expectTheThrow).to.not.throw();
-		chai.expect(badExpect).to.throw("Expected [Function: anonymous] to throw");
-	});
-
-	it('throw with error spec', function() {
-		var shouldThrow = function() {
-			var obj = void 0;
-			return obj.thing.thing;
+		var expectNoThrow = function() {
+			iexpect(shouldntThrow).not.toThrow();
 		};
 
-		var expectTheThrow = function() {
-			var thrownError;
-
-			iexpect(shouldThrow).toThrow(TypeError);
-			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
-			iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
-			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
-			
-			try {
-				shouldThrow();
-			} catch(e) {
-				thrownError = e;
-			}
-
-			iexpect(shouldThrow).toThrow(thrownError);
-			iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
+		var badExpect1 = function badExpect1() {
+			iexpect(shouldThrow).not.toThrow();
 		};
 
-		var badExpect1 = function() {
-			function FakeError(){}
-
-			iexpect(shouldThrow).toThrow(FakeError);
+		var badExpect2 = function badExpect2() {
+			iexpect(shouldntThrow).toThrow();
 		};
 
-		var badExpect2 = function() {
-			iexpect(shouldThrow).toThrow('a fake error message');
-		};
+		it('not throw', function() {
+			expectNoThrow();
 
-		var badExpect3 = function() {
-			var newError = new RangeError();
-			newError.message = 'fake error message';
+			chai.expect(expectNoThrow).to.not.throw();
+			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+		});
 
-			iexpect(shouldThrow).toThrow(newError);
-		};
+		it('throw without error spec', function() {
+			chai.expect(expectTheThrow).to.not.throw();
+			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw");
+		});
 
-		chai.expect(shouldThrow).to.throw();
-		expectTheThrow();
+		it('throw with error spec', function() {
+			var expectTheThrow = function() {
+				var thrownError;
 
-		chai.expect(expectTheThrow).to.not.throw();
+				iexpect(shouldThrow).toThrow(TypeError);
+				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
+				iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
+				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
+				
+				try {
+					shouldThrow();
+				} catch(e) {
+					thrownError = e;
+				}
 
-		chai.expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-		chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-		chai.expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+				iexpect(shouldThrow).toThrow(thrownError);
+				iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
+			};
+
+			var badExpect1 = function() {
+				function FakeError(){}
+
+				iexpect(shouldThrow).toThrow(FakeError);
+			};
+
+			var badExpect2 = function() {
+				iexpect(shouldThrow).toThrow('a fake error message');
+			};
+
+			var badExpect3 = function() {
+				var newError = new RangeError();
+				newError.message = 'fake error message';
+
+				iexpect(shouldThrow).toThrow(newError);
+			};
+
+			chai.expect(shouldThrow).to.throw();
+			expectTheThrow();
+
+			chai.expect(expectTheThrow).to.not.throw();
+
+			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+			chai.expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
+
+		});
 
 	});
 });
-},{"iexpect":2}],2:[function(require,module,exports){
-(function iexpectModule() {
+},{"iexpect":4}],2:[function(require,module,exports){
+(function iexpectIsModule() {
 	"use strict";
 
-	var iexpect;
+	var is = {};
 
-	iexpect = function (actualValue) {
-		var a = new iexpect.Assert();
-		a._actual = actualValue;
-		a._not = false;
-
-		return a;
+	is.isBoolean = function isBoolean(b) {
+		return typeof b === 'boolean';
 	};
 
-	iexpect.expect = iexpect;
+	is.isDate = function isDate(d) {
+		return d instanceof Date;
+	};
 
-	iexpect.Assert = function Assert() {};
+	is.isError = function isError(e) {
+		return e instanceof Error;
+	};
 
-	function _toStringArray(arr) {
+	is.isFunction = function isFunction(f) {
+		return typeof f === 'function';
+	};
+
+	is.isNull = function isNull(n) {
+		return n === null;
+	};
+
+	is.isPrimitive = function isPrimitive(p) {
+		return typeof p === 'string' ||
+			typeof p === 'undefined' ||
+			typeof p === 'boolean' ||
+			typeof p === 'number' ||
+			p === null;
+	};
+
+	is.isNumber = function isNumber(n) {
+		return typeof n === 'number';
+	};
+
+	is.isObject = function isObject(o) {
+		return o === Object(o);
+	};
+
+	is.isRegExp = function isRegExp(r) {
+		return r instanceof RegExp;
+	};
+
+	is.isString = function isString(s) {
+		return typeof s === 'string' || s instanceof String;
+	};
+
+	is.isUndefined = function isUndefined(u) {
+		return u === void 0;
+	};
+
+	module.exports = is;
+})();
+},{}],3:[function(require,module,exports){
+(function iexpectPrintModule() {
+	"use strict";
+
+	var is = require('iexpect-is');
+
+	function printArray(arr) {
 		if (arr.length === 0) {
 			return '[]';
 		}
 
 		var strings = Array.prototype.map.call(arr, function(val) {
-			return _toString(val);
+			return print(val);
 		});
 
 		return '[' + Array.prototype.join.call(strings, ', ') + ']';
 	}
 
-	function _toStringPojs(o) {
+	function printPojs(o) {
 		var keys = Object.keys(o);
 
 		if (keys.length === 0) {
@@ -425,17 +458,17 @@ describe('iexpect', function (){
 		}
 
 		var keyValueStrings = keys.map(function(k) {
-			return k + ': ' + _toString(o[k]);
+			return k + ': ' + print(o[k]);
 		});
 
 		return '{ ' + keyValueStrings.join(', ') + ' }';
 	}
 
-	function _toStringErrorSpec(spec) {
+	function printErrorSpec(spec) {
 		var s = '[';
 
 		if (spec.errorObject) {
-			return _toString(spec.errorObject);
+			return print(spec.errorObject);
 		}
 
 		if (spec.errorType) {
@@ -455,49 +488,100 @@ describe('iexpect', function (){
 		return s + ']';
 	}
 
-	function _toString(o) {
+	function printString(s) {
+		return "'" + String.prototype.toString.call(s) + "'";
+	}
+
+	function printNumber(n) {
+		return Number.prototype.toString.call(n);
+	}
+
+	function printFunction(f) {
+		var functionName = f.name || 'anonymous';
+
+		return '[Function: ' + functionName + ']';
+	}
+
+	function printRegExp(r) {
+		return RegExp.prototype.toString.call(r);
+	}
+
+	function printDate(d) {
+		return '[Date: ' + Date.prototype.toUTCString.call(d) + ']';
+	}
+
+	function printError(e) {
+		return '[' + e.constructor.name + ': ' + e.message + ']';
+	}
+
+	function print(o) {
 		if (Array.isArray(o)) {
-			return _toStringArray(o);
+			return printArray(o);
 		}
 
-		if (typeof o === 'function') {
-			var functionName = o.name || 'anonymous';
-
-			return '[Function: ' + functionName + ']';
+		if (is.isFunction(o)) {
+			return printFunction(o);
 		}
 
-		if (typeof o === 'number') {
-			return Number.prototype.toString.call(o);
+		if (is.isNumber(o)) {
+			return printNumber(o);
 		}
 
-		if (typeof o === 'string' || o instanceof String) {
-			return "'" + String.prototype.toString.call(o) + "'";
+		if (is.isString(o)) {
+			return printString(o);
 		}
 
-		if (o instanceof RegExp) {
-			return RegExp.prototype.toString.call(o);
+		if (is.isRegExp(o)) {
+			return printRegExp(o);
 		}
 
-		if (o === void 0 || o === null || o === true || o === false) {
+		if (is.isUndefined(o) || is.isNull(o) || is.isBoolean(o)) {
 			return '' + o;
 		}
 
-		if (o instanceof Date) {
-			return '[Date: ' + Date.prototype.toUTCString.call(o) + ']';
+		if (is.isDate(o)) {
+			return printDate(o);
 		}
 
-		if (o instanceof Error) {
-			return '[' + o.constructor.name + ': ' + o.message + ']';
+		if (is.isError(o)) {
+			return printError(o);
 		}
 
-		if (o === Object(o)) {
-			return _toStringPojs(o);
+		if (is.isObject(o)) {
+			return printPojs(o);
 		}
 
 		return Object.prototype.toString.call(o);
 	}
 
-	iexpect._toString = _toString;
+	module.exports = {
+		print: print,
+		printArray: printArray,
+		printErrorSpec: printErrorSpec,
+		printObject: printPojs,
+		printString: printString
+	};
+})();
+},{"iexpect-is":2}],4:[function(require,module,exports){
+(function iexpectModule() {
+	"use strict";
+
+	var is = require('iexpect-is');
+	var print = require('iexpect-print');
+
+	var iexpect = function (actualValue) {
+		var a = new iexpect.Assert();
+		a._actual = actualValue;
+		a._not = false;
+
+		return a;
+	};
+
+	iexpect.expect = iexpect;
+
+	iexpect.Assert = function Assert() {};
+
+	iexpect._toString = print.print;
 
 	function errorSpecFromArgs(args) {
 		var errorSpec = {};
@@ -548,28 +632,20 @@ describe('iexpect', function (){
 		return true;
 	}
 
-	function objectIsPrimitive(o) {
-		return typeof o === 'string' ||
-			typeof o === 'undefined' ||
-			typeof o === 'boolean' ||
-			typeof o === 'number' ||
-			o === null;
-	}
-
 	function objectsDeepEqual(a, b) {
 		if (a === b) {
 			return true;
 		}
 		
-		if (objectIsPrimitive(a) || objectIsPrimitive(b)) {
+		if (is.isPrimitive(a) || is.isPrimitive(b)) {
 			return a === b;
 		}
 
-		if (a instanceof Date && b instanceof Date) {
+		if (is.isDate(a) && is.isDate(b)) {
 			return a.getTime() === b.getTime();
 		}
 
-		if (a instanceof RegExp && b instanceof RegExp) {
+		if (is.isRegExp(a) && is.isRegExp(b)) {
 			return RegExp.prototype.toString.call(a) === RegExp.prototype.toString.call(b);
 		}
 
@@ -628,8 +704,8 @@ describe('iexpect', function (){
 				}
 
 				errorMessage = templateToUse
-						.replace("{{expected}}", _toString(expectedValue))
-						.replace("{{actual}}", _toString(this._actual));
+						.replace("{{expected}}", print.print(expectedValue))
+						.replace("{{actual}}", print.print(this._actual));
 			}
 
 			if (o.processErrorMessage) {
@@ -781,7 +857,7 @@ describe('iexpect', function (){
 			}
 
 			if(!didThrow) {
-				assertResult.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', _toString(func));
+				assertResult.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', print.print(func));
 				assertResult.value = false;
 				return assertResult;
 			}
@@ -789,8 +865,8 @@ describe('iexpect', function (){
 			// No parameters passed to toThrow()
 			if (args[0] === undefined) {
 				assertResult.errorMessage = 'Expected {{actual}} not to throw but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{thrown}}', print.print(thrownError));
 
 				assertResult.value = true;
 				return assertResult;
@@ -801,14 +877,14 @@ describe('iexpect', function (){
 
 			if (errorMatches) {
 				assertResult.errorMessage = 'Expected {{actual}} not to throw an error like {{expected}} but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{expected}}', print.printErrorSpec(errorSpec))
+					.replace('{{thrown}}', print.print(thrownError));
 			} else {
 				assertResult.errorMessage = 'Expected {{actual}} to throw an error like {{expected}} but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{expected}}', print.printErrorSpec(errorSpec))
+					.replace('{{thrown}}', print.print(thrownError));
 			}
 
 			assertResult.value = errorMatches;
@@ -844,4 +920,4 @@ describe('iexpect', function (){
 
 	module.exports = iexpect;
 })();
-},{}]},{},[1])
+},{"iexpect-is":2,"iexpect-print":3}]},{},[1])
