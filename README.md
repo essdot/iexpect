@@ -15,28 +15,42 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 ## Functionality
 
 * toEqual: Compares values with triple-equals
-    * `iexpect(1).toEqual(1)`
+    
+    iexpect(1).toEqual(1)
+
 * toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
-    * `iexpect([1, 2, 3]).toDeepEqual([1, 2 , 3])`
-    * `iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })`
+    
+    iexpect([1, 2, 3]).toDeepEqual([1, 2 , 3])
+    iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
+
 * toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
-    * `iexpect(myFunction).toBeA('function')`
-    * `iexpect({}).toBeAn('object')`
+    
+    iexpect(myFunction).toBeA('function')
+    iexpect({}).toBeAn('object')
+
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
-    * `iexpect(1 === 2).toBeFalse()`
+    
+    iexpect(1 === 2).toBeFalse()
+
 * toThrow: Tests whether a function throws. Optionally set expectiations about the type and message of the error thrown.
-    * `iexpect(myFunction).toThrow()`
-    * `iexpect(myFunction).toThrow(TypeError)`
-    * `iexpect(myFunction).toThrow("Error message")`
-    * `iexpect(myFunction).toThrow(TypeError, "Error Message")`
+    
+    iexpect(myFunction).toThrow()
+    iexpect(myFunction).toThrow(TypeError)
+    iexpect(myFunction).toThrow("Error message")
+    iexpect(myFunction).toThrow(TypeError, "Error Message")
+
 * toHaveProperty: Test whether object has a property (with Object.prototype.hasOwnProperty)
-    * `iexpect({ a: 1 }).toHaveProperty('a')`
-    * `iexpect([ 1 ]).toHaveProperty('0')`
+    
+    iexpect({ a: 1 }).toHaveProperty('a')
+    iexpect([ 1 ]).toHaveProperty('0')
+
 * not: Reverse expectations 
-    * `iexpect(myFunction).not.toThrow()`
+    
+    iexpect(myFunction).not.toThrow()
 * and: Chain expectations
-    * `iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])`
-    * `iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)`
+    
+    iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])
+    iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)
 
 ## Installing
 
