@@ -52,19 +52,19 @@
 					errorSpec.errorObject.message === thrownError.message;
 		}
 
-		if (errorSpec.errorType && thrownError.constructor !== errorSpec.errorType) {
-			return false;
+		if (errorSpec.errorType) {
+			return thrownError.constructor === errorSpec.errorType;
 		}
 
-		if (errorSpec.errorMessage && thrownError.message.indexOf(errorSpec.errorMessage) === -1) {
-			return false;
+		if (errorSpec.errorMessage) {
+			return thrownError.message.indexOf(errorSpec.errorMessage) !== -1;
 		}
 
-		if (errorSpec.errorPattern && !errorSpec.errorPattern.test(thrownError.message)) {
-			return false;
+		if (errorSpec.errorPattern) {
+			return errorSpec.errorPattern.test(thrownError.message);
 		}
 
-		return true;
+		return false;
 	}
 
 	function objectsDeepEqual(a, b) {
