@@ -487,7 +487,11 @@ describe('iexpect', function (){
 			return '[' + o.constructor.name + ': ' + o.message + ']';
 		}
 
-		return _toStringPojs(o);
+		if (o === Object(o)) {
+			return _toStringPojs(o);
+		}
+
+		return Object.prototype.toString.call(o);
 	}
 
 	iexpect._toString = _toString;
