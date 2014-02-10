@@ -24,7 +24,7 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
     * `iexpect({}).toBeAn('object')`
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
     * `iexpect(1 === 2).toBeFalse()`
-* toThrow: Tests whether a function throws. Optionally set expectiations about the type and message of the error thrown.
+* toThrow: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
     * `iexpect(myFunction).toThrow()`
     * `iexpect(myFunction).toThrow(TypeError)`
     * `iexpect(myFunction).toThrow("Error message")`
