@@ -102,7 +102,10 @@ describe('iexpect', function (){
 
 		iexpect(shouldThrow).toThrow();
 		iexpect(shouldThrow).toThrow().and.toThrow();
-		iexpect(shouldThrow).toThrow().and.not.toThrow("fake error message").and.not.toThrow("another fake error message");
+		iexpect(shouldThrow).toThrow()
+			.and.not.toThrow("fake error message")
+			.and.not.toThrow("another fake error message")
+			.and.toThrow(TypeError, "Cannot read property 'thing' of undefined");
 	});
 
 	it('to be true', function() {
