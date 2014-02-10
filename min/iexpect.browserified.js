@@ -23,19 +23,19 @@
 		var errorSpec = {};
 
 		args.forEach(function(a) {
-			if (typeof a === 'function') {
+			if (is.isFunction(a)) {
 				errorSpec.errorType = a;
 			}
 
-			if (typeof a === 'string') {
+			if (is.isString(a)) {
 				errorSpec.errorMessage = a;
 			}
 
-			if (a instanceof RegExp) {
+			if (is.isRegExp(a)) {
 				errorSpec.errorPattern = a;
 			}
 
-			if (a instanceof Error) {
+			if (is.isError(a)) {
 				errorSpec.errorObject = a;
 			}
 		});
@@ -200,7 +200,7 @@
 				return false;
 			}
 
-			if (typeof expected !== 'string' && !(expected instanceof String)) {
+			if (!is.isString(expected)) {
 				return expected === actual;
 			}
 
@@ -212,35 +212,31 @@
 			}
 
 			if (expected === 'function') {
-				return typeof actual === 'function';
+				return is.isFunction(actual);
 			}
 
 			if (expected === 'string') {
-				return typeof actual === 'string' || actual instanceof String;
+				return is.isString(actual);
 			}
 
 			if (expected === 'number') {
-				return typeof actual === 'number';
-			}
-
-			if (expected === 'function') {
-				return typeof actual === 'function';
+				return is.isNumber(actual);
 			}
 
 			if (expected === 'regex' || expected === 'regexp' || expected === 'reg exp') {
-				return actual instanceof RegExp;
+				return is.isRegExp(actual);
 			}
 
 			if (expected === 'date') {
-				return actual instanceof Date;
+				return is.isDate(actual);
 			}
 
 			if (expected === 'object') {
-				return actual === Object(actual);
+				return is.isObject(actual);
 			}
 
 			if (expected === 'boolean' || expected === 'bool') {
-				return typeof actual === 'boolean';
+				return is.isBoolean(actual);
 			}
 
 			return false;
