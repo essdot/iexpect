@@ -1,23 +1,17 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
-		uglify: {
-			js: {
-				files: {
-					'min/iexpect.min.js': [ 'app/*.js' ]
-				}
-			}
-		},
-
 		concat: {
-			iexpectNodeModule: {
-				src: [ 'app/*.js' ],
-
-				dest: 'node_modules/iexpect.js'
-			},
-
 			specs: {
 				src: [ 'test/*.js', 'test/**/*.js'],
 				dest: 'min/iexpect-spec.concat.js'
+			}
+		},
+
+		uglify: {
+			uglifyIexpectBrowserified: {
+				files: {
+					'min/iexpect.browserified.min.js' : [ 'min/iexpect.browserified.js']
+				}
 			}
 		},
 
@@ -30,6 +24,14 @@ module.exports = function(grunt) {
 		},
  
 		shell: {
+			copyModules: {
+				options: {
+					stderr: true,
+					failOnError: true
+				},
+
+				command: 'cp app/*.js node_modules'
+			},
 			runMocha: {
 				options: {
 					stdout: true,
@@ -50,7 +52,16 @@ module.exports = function(grunt) {
 				command: 'node bin/serve'
             },
 
-            browserifyiexpectSpec: {
+            browserifyIexpect: {
+				options: {
+					stderr: true,
+					failOnError: true
+				},
+
+				command: 'browserify app/iexpect.js -o min/iexpect.browserified.js'
+            },
+
+            browserifyIexpectSpec: {
 				options: {
 					stderr: true,
 					failOnError: true
@@ -61,7 +72,13 @@ module.exports = function(grunt) {
         }
 	});
 
-	grunt.registerTask('build', [ 'concat', 'uglify', 'shell:browserifyiexpectSpec' ]);
+	grunt.registerTask('build', [
+		'concat',
+		'shell:copyModules',
+		'shell:browserifyIexpect',
+		'shell:browserifyIexpectSpec',
+		'uglify'
+	]);
 
 	grunt.registerTask('test', [ 'build', 'shell:runMocha' ]);
 

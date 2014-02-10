@@ -1,9 +1,10 @@
 (function iexpectModule() {
 	"use strict";
 
-	var iexpect;
+	var is = require('iexpect-is');
+	var print = require('iexpect-print');
 
-	iexpect = function (actualValue) {
+	var iexpect = function (actualValue) {
 		var a = new iexpect.Assert();
 		a._actual = actualValue;
 		a._not = false;
@@ -15,99 +16,7 @@
 
 	iexpect.Assert = function Assert() {};
 
-	function _toStringArray(arr) {
-		if (arr.length === 0) {
-			return '[]';
-		}
-
-		var strings = Array.prototype.map.call(arr, function(val) {
-			return _toString(val);
-		});
-
-		return '[' + Array.prototype.join.call(strings, ', ') + ']';
-	}
-
-	function _toStringPojs(o) {
-		var keys = Object.keys(o);
-
-		if (keys.length === 0) {
-			return '{}';
-		}
-
-		var keyValueStrings = keys.map(function(k) {
-			return k + ': ' + _toString(o[k]);
-		});
-
-		return '{ ' + keyValueStrings.join(', ') + ' }';
-	}
-
-	function _toStringErrorSpec(spec) {
-		var s = '[';
-
-		if (spec.errorObject) {
-			return _toString(spec.errorObject);
-		}
-
-		if (spec.errorType) {
-			s += spec.errorType.name;
-		}
-
-		if (spec.errorMessage) {
-			var messagePrefix = spec.errorType ? ': ' : '';
-			s += messagePrefix + spec.errorMessage;
-		}
-
-		if (spec.errorPattern) {
-			var patternPrefix = spec.errorType ? ': ' : '';
-			s += patternPrefix + spec.errorPattern.toString();
-		}
-
-		return s + ']';
-	}
-
-	function _toString(o) {
-		if (Array.isArray(o)) {
-			return _toStringArray(o);
-		}
-
-		if (typeof o === 'function') {
-			var functionName = o.name || 'anonymous';
-
-			return '[Function: ' + functionName + ']';
-		}
-
-		if (typeof o === 'number') {
-			return Number.prototype.toString.call(o);
-		}
-
-		if (typeof o === 'string' || o instanceof String) {
-			return "'" + String.prototype.toString.call(o) + "'";
-		}
-
-		if (o instanceof RegExp) {
-			return RegExp.prototype.toString.call(o);
-		}
-
-		if (o === void 0 || o === null || o === true || o === false) {
-			return '' + o;
-		}
-
-		if (o instanceof Date) {
-			return '[Date: ' + Date.prototype.toUTCString.call(o) + ']';
-		}
-
-		if (o instanceof Error) {
-			return '[' + o.constructor.name + ': ' + o.message + ']';
-		}
-
-		if (o === Object(o)) {
-			return _toStringPojs(o);
-		}
-
-		return Object.prototype.toString.call(o);
-	}
-
-	iexpect._toString = _toString;
+	iexpect._toString = print.print;
 
 	function errorSpecFromArgs(args) {
 		var errorSpec = {};
@@ -158,28 +67,20 @@
 		return true;
 	}
 
-	function objectIsPrimitive(o) {
-		return typeof o === 'string' ||
-			typeof o === 'undefined' ||
-			typeof o === 'boolean' ||
-			typeof o === 'number' ||
-			o === null;
-	}
-
 	function objectsDeepEqual(a, b) {
 		if (a === b) {
 			return true;
 		}
 		
-		if (objectIsPrimitive(a) || objectIsPrimitive(b)) {
+		if (is.isPrimitive(a) || is.isPrimitive(b)) {
 			return a === b;
 		}
 
-		if (a instanceof Date && b instanceof Date) {
+		if (is.isDate(a) && is.isDate(b)) {
 			return a.getTime() === b.getTime();
 		}
 
-		if (a instanceof RegExp && b instanceof RegExp) {
+		if (is.isRegExp(a) && is.isRegExp(b)) {
 			return RegExp.prototype.toString.call(a) === RegExp.prototype.toString.call(b);
 		}
 
@@ -238,8 +139,8 @@
 				}
 
 				errorMessage = templateToUse
-						.replace("{{expected}}", _toString(expectedValue))
-						.replace("{{actual}}", _toString(this._actual));
+						.replace("{{expected}}", print.print(expectedValue))
+						.replace("{{actual}}", print.print(this._actual));
 			}
 
 			if (o.processErrorMessage) {
@@ -391,7 +292,7 @@
 			}
 
 			if(!didThrow) {
-				assertResult.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', _toString(func));
+				assertResult.errorMessage = 'Expected {{actual}} to throw'.replace('{{actual}}', print.print(func));
 				assertResult.value = false;
 				return assertResult;
 			}
@@ -399,8 +300,8 @@
 			// No parameters passed to toThrow()
 			if (args[0] === undefined) {
 				assertResult.errorMessage = 'Expected {{actual}} not to throw but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{thrown}}', print.print(thrownError));
 
 				assertResult.value = true;
 				return assertResult;
@@ -411,14 +312,14 @@
 
 			if (errorMatches) {
 				assertResult.errorMessage = 'Expected {{actual}} not to throw an error like {{expected}} but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{expected}}', print.printErrorSpec(errorSpec))
+					.replace('{{thrown}}', print.print(thrownError));
 			} else {
 				assertResult.errorMessage = 'Expected {{actual}} to throw an error like {{expected}} but {{thrown}} was thrown'
-					.replace('{{actual}}', _toString(func))
-					.replace('{{expected}}', _toStringErrorSpec(errorSpec))
-					.replace('{{thrown}}', _toString(thrownError));
+					.replace('{{actual}}', print.print(func))
+					.replace('{{expected}}', print.printErrorSpec(errorSpec))
+					.replace('{{thrown}}', print.print(thrownError));
 			}
 
 			assertResult.value = errorMatches;
