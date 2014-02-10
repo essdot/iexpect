@@ -69,6 +69,10 @@ module.exports = function(grunt) {
 
 				command: 'browserify min/iexpect-spec.concat.js -o min/iexpect-spec.concat.browserified.js'
             }
+        },
+
+        jshint: {
+			app: [ 'app/*.js' ]
         }
 	});
 
@@ -77,7 +81,8 @@ module.exports = function(grunt) {
 		'shell:copyModules',
 		'shell:browserifyIexpect',
 		'shell:browserifyIexpectSpec',
-		'uglify'
+		'uglify',
+		'jshint'
 	]);
 
 	grunt.registerTask('test', [ 'build', 'shell:runMocha' ]);
@@ -85,6 +90,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('server', [ 'build', 'shell:runServerScript' ]);
 
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-shell');

@@ -19,11 +19,11 @@
     "grunt-contrib-uglify": "0.2.x",
     "grunt-contrib-watch": "0.5.x",
     "grunt-shell": "0.6.x",
-
     "chai": "1.8.x",
-    "express" : "2.5.x",
+    "express": "2.5.x",
     "jsdom": "0.8.x",
-    "underscore": "1.5.x"
+    "underscore": "1.5.x",
+    "grunt-contrib-jshint": "~0.8.0"
   },
   "dependencies": {
     "grunt": "0.4.x"
