@@ -15,9 +15,7 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 ## Functionality
 
 * toEqual: Compares values with triple-equals
-    
-    iexpect(1).toEqual(1)
-    
+    * `iexpect(1).toEqual(1)`
 * toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
     * `iexpect([1, 2, 3]).toDeepEqual([1, 2 , 3])`
     * `iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })`
