@@ -42,13 +42,13 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 
     sh ./install.sh
 
-(Installs grunt-cli, browserify, and mocha for the test runner)
+(Installs browserify, and mocha for the test runner)
 
 ## Running tests
 
-Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `npm test` or `grunt test`.
+Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `mocha` or `npm test`.
 
-To run the tests in a browser, run `node bin/serve` or `grunt server` and browse to [http://localhost:4444](http://localhost:4444).
+To run the tests in a browser, run `node bin/serve` and browse to [http://localhost:4444](http://localhost:4444).
 
 ## Maintainer
 
