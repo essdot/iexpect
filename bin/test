@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 var spawn = require('child_process').spawn;
-spawn('grunt', [ 'test' ], { stdio: 'inherit' });
+spawn('mocha', [  ], { stdio: 'inherit' });
