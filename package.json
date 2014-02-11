@@ -1,31 +1,25 @@
 {
-  "name": "shimlib",
+  "name": "iexpect",
   "author": "Justin Sippel <justin@sippel.com>",
   "version": "0.0.1",
-  "description": "A useful Javascript library",
-  "main": "index.js",
+  "description": "Javascript unit test assertion library",
   "scripts": {
     "test": "bin/test",
     "start": "bin/serve"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/essdot/shimlib.git"
+    "url": "git://github.com/essdot/iexpect.git"
   },
   "devDependencies": {
-    "grunt": "0.4.x",
-    "grunt-contrib-concat": "0.3.x",
-    "grunt-contrib-copy": "0.5.x",
-    "grunt-contrib-uglify": "0.2.x",
-    "grunt-contrib-watch": "0.5.x",
-    "grunt-shell": "0.6.x",
     "chai": "1.8.x",
     "express": "2.5.x",
-    "jsdom": "0.8.x",
     "underscore": "1.5.x",
-    "grunt-contrib-jshint": "~0.8.0"
-  },
-  "dependencies": {
-    "grunt": "0.4.x"
+    "gulp-browserify": "~0.4.4",
+    "gulp-clean": "~0.2.4",
+    "gulp-rename": "~1.0.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp-util": "~2.2.14",
+    "gulp": "~3.5.2"
   }
 }

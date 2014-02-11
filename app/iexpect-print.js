@@ -1,7 +1,7 @@
 (function iexpectPrintModule() {
 	"use strict";
 
-	var is = require('iexpect-is');
+	var is = require('./iexpect-is');
 
 	function printArray(arr) {
 		if (arr.length === 0) {

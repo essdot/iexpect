@@ -1,4 +1,4 @@
-iexpect = require('iexpect');
+iexpect = require('../app/iexpect');
 
 describe('iexpect', function (){
 	it('to equal', function() {

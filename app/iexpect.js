@@ -1,8 +1,8 @@
 (function iexpectModule() {
 	"use strict";
 
-	var is = require('iexpect-is');
-	var print = require('iexpect-print');
+	var is = require('./iexpect-is');
+	var print = require('./iexpect-print');
 
 	var iexpect = function (actualValue) {
 		var a = new iexpect.Assert();

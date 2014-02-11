@@ -10,7 +10,7 @@ iexpect is a Javascript library that lets you write assertions for unit tests. A
     iexpect({ a: 1, b: 2 }).toHaveProperty('a').and.toHaveProperty('b');
     iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 
-iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Grunt tasks are provided for building, concat/minifying, running tests, etc. Browserify is used to resolve the node modules into a single script.
+iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Gulp tasks are provided for preparing scripts. Browserify is used to resolve the node modules into a single script for running the specs in the browser.
 
 ## Functionality
 
