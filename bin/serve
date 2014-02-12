@@ -23,9 +23,22 @@ var server = function(opts) {
     fs.createReadStream(opts.baseDir + 'web-test/mocha.html').pipe(res);
   });
 
-  site.listen(opts.port);
+  site.on('error', function (e) {
+    if (e.code == 'EADDRINUSE') {
+      console.log('Sorry, port ' + opts.port + ' is already in use.');
+    } else {
+      console.log('Error when listening on port ' + opts.port + ': ');
+      console.log(e);
+    }
 
-  console.log("\n\nServing at http://localhost:" + opts.port);
+    process.exit(1);
+  });
+
+  site.on('listening', function () {
+    console.log("\n\nServing at http://localhost:" + opts.port);
+  });
+
+  site.listen(opts.port);
 };
 
 server({ port : 4444, dev : true });
