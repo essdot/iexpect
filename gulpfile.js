@@ -18,12 +18,12 @@ gulp.task('prepare-spec', function() {
 		.pipe(gulp.dest('./min'));
 });
 
-gulp.task('prepare-iexpect', function() {
+gulp.task('prepare-iexpect-standalone', function() {
 	gulp.src('app/iexpect.js')
-		.pipe(browserify())
+		.pipe(browserify({ standalone: 'iexpect' }))
 		.pipe(uglify())
 		.pipe(rename('iexpect.min.js'))
 		.pipe(gulp.dest('./min'));
 });
 
-gulp.task('build', [ 'clean', 'prepare-iexpect', 'prepare-spec' ]);
+gulp.task('build', [ 'clean', 'prepare-iexpect-standalone', 'prepare-spec' ]);
