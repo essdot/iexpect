@@ -15,39 +15,64 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 ## Functionality
 
 * toEqual: Compares values with triple-equals
-    * `iexpect(1).toEqual(1)`
+```
+iexpect(1).toEqual(1)
+```
 * toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
-    * `iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])`
-    * `iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })`
+```
+iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])
+iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
+```
 * toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
-    * `iexpect(myFunction).toBeA('function')`
-    * `iexpect({}).toBeAn('object')`
+```
+iexpect(myFunction).toBeA('function')
+iexpect({}).toBeAn('object')
+```
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
-    * `iexpect(1 === 2).toBeFalse()`
+```
+iexpect(1 === 2).toBeFalse()
+iexpect(1 === 1).toBeTrue()
+iexpect(Object.prototype.nonesuch).toBeUndefined()
+```
 * toThrow: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
-    * Expect myFunction to throw any error:  
-`iexpect(myFunction).toThrow()`
-    * Expect myFunction to throw any TypeError (any error whose constructor is TypeError):  
-`iexpect(myFunction).toThrow(TypeError)`
-    * Expect myFunction to throw an error whose message contains "Error message":  
-`iexpect(myFunction).toThrow("Error message")`
-    * Expect myFunction to throw a TypeError whose message contains "Error message':  
-`iexpect(myFunction).toThrow(TypeError, "Error message")`
-    * Expect myFunction to throw an error whose constructor is the same as errorObject's constructor, and whose message is the same as errorObject's message:  
-`iexpect(myFunction).toThrow(errorObject)`
-* toHaveOwnProperty: Test whether object has property with Object.prototype.hasOwnProperty()
-    * `iexpect({ a: 1 }).toHaveOwnProperty('a')`
-    * `iexpect({ a: 1 }).not.toHaveOwnProperty('toString')`
-    * `iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwnProperty('1')`
-    * `iexpect([1, 2]).not.toHaveOwnProperty('slice')`
-* toHaveProperty: Test whether object has a property (object[propertyName])
-    * `iexpect({ a: 1 }).toHaveProperty('toString')`
-    * `iexpect([ 1 ]).toHaveProperty('slice')`
+```
+// Expect myFunction to throw any error:  
+iexpect(myFunction).toThrow()
+
+// Expect myFunction to throw any TypeError (any error whose constructor is TypeError):  
+iexpect(myFunction).toThrow(TypeError)
+
+// Expect myFunction to throw an error whose message contains "Error message":  
+iexpect(myFunction).toThrow("Error message")
+
+// Expect myFunction to throw a TypeError whose message contains "Error message':  
+iexpect(myFunction).toThrow(TypeError, "Error message")
+
+// Expect myFunction to throw an error whose constructor is the same as errorObject's 
+//constructor, and whose message is the same as errorObject's message:  
+iexpect(myFunction).toThrow(errorObject)
+```
+* toHaveOwnProperty/toHaveOwn: Test whether object has property with Object.prototype.hasOwnProperty()
+```
+iexpect({ a: 1 }).toHaveOwnProperty('a')
+iexpect({ a: 1 }).not.toHaveOwnProperty('toString')
+iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwn('1')
+iexpect([1, 2]).not.toHaveOwnProperty('slice')
+```
+* toHave/toHaveProperty: Test whether object has a property (object[propertyName])
+```
+iexpect({ a: 1 }).toHaveProperty('toString')
+iexpect([ 1 ]).toHave('slice')
+```
 * not: Reverse expectations 
-    * `iexpect(myFunction).not.toThrow()`
+```
+iexpect(myFunction).not.toThrow()
+```
 * and: Chain expectations
-    * `iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])`
-    * `iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)`
+```
+iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])
+iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)
+```
 
 ## Installing
 
