@@ -828,18 +828,27 @@ describe('iexpect', function (){
 			iexpect('a').toHaveProperty('toFixed');
 		};
 
-		chai.expect(badExpect1).to.throw();
-		chai.expect(badExpect2).to.throw();
+		chai.expect(badExpect1).to.throw("Expected [1, 2, 3] to have property 'nonesuch'");
+		chai.expect(badExpect2).to.throw("Expected 'a' to have property 'toFixed'");
 
 	});
 
 	it('to have own property', function() {
 		iexpect({ theProp: 23 }).toHaveOwnProperty('theProp');
 		iexpect({ theProp: 23 }).not.toHaveOwnProperty('z');
-		iexpect({ theProp: 23 }).not.toHaveOwnProperty('toString');
 		iexpect([1]).toHaveOwnProperty('0');
-		iexpect([1]).not.toHaveOwnProperty('slice');
 		iexpect(Object).toHaveOwn('prototype');
+
+		var badExpect1 = function badExpect1() {
+			iexpect([1, 2, 3]).toHaveOwnProperty('slice');
+		};
+
+		var badExpect2 = function badExpect2() {
+			iexpect({ theProp: 23 }).toHaveOwnProperty('toString');
+		};
+
+		chai.expect(badExpect1).to.throw("Expected [1, 2, 3] to have own property 'slice'");
+		chai.expect(badExpect2).to.throw("Expected { theProp: 23 } to have own property 'toString'");
 	});
 
 	it('to string', function() {
