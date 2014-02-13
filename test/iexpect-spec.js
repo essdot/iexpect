@@ -257,10 +257,39 @@ describe('iexpect', function (){
 	});
 
 	it('to have property', function() {
-		iexpect({ theProp: 23 }).toHaveProperty('theProp');
-		iexpect({ theProp: 23 }).not.toHaveProperty('z');
-		iexpect([1]).toHaveProperty('0');
-		iexpect(Object).toHaveProperty('prototype');
+		function Ctor() {}
+		Ctor.prototype = { protoProp: 'hello' };
+		var o = new Ctor();
+		o.prop = 'there';
+
+		iexpect(o).toHaveProperty('protoProp');
+		iexpect(o).toHaveProperty('prop');
+		iexpect(o).toHaveProperty('toString');
+
+		iexpect([1, 2, 3]).toHaveProperty('slice').and.toHaveProperty('splice');
+		iexpect(/regex/).toHaveProperty('test');
+		iexpect(7.24).toHave('toFixed');
+
+		var badExpect1 = function badExpect1() {
+			iexpect([1, 2, 3]).toHaveProperty('nonesuch');
+		};
+
+		var badExpect2 = function badExpect2() {
+			iexpect('a').toHaveProperty('toFixed');
+		};
+
+		chai.expect(badExpect1).to.throw();
+		chai.expect(badExpect2).to.throw();
+
+	});
+
+	it('to have own property', function() {
+		iexpect({ theProp: 23 }).toHaveOwnProperty('theProp');
+		iexpect({ theProp: 23 }).not.toHaveOwnProperty('z');
+		iexpect({ theProp: 23 }).not.toHaveOwnProperty('toString');
+		iexpect([1]).toHaveOwnProperty('0');
+		iexpect([1]).not.toHaveOwnProperty('slice');
+		iexpect(Object).toHaveOwn('prototype');
 	});
 
 	it('to string', function() {

@@ -448,13 +448,22 @@
 
 	iexpect.Assert.prototype.toHaveProperty = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function(expected, actual) {
-			return Object.prototype.hasOwnProperty.call(actual, expected);
+			return actual[expected] !== void 0;
 		},
 		template: 'Expected {{actual}} to have property {{expected}}',
 		notTemplate: 'Expected {{actual}} not to have property {{expected}}'
 	});
 
+	iexpect.Assert.prototype.toHaveOwnProperty = iexpect.Assert.prototype.makeResolver({
+		assertFunction: function(expected, actual) {
+			return Object.prototype.hasOwnProperty.call(actual, expected);
+		},
+		template: 'Expected {{actual}} to have own property {{expected}}',
+		notTemplate: 'Expected {{actual}} not to have own property {{expected}}'
+	});
+
 	iexpect.Assert.prototype.toHave = iexpect.Assert.prototype.toHaveProperty;
+	iexpect.Assert.prototype.toHaveOwn = iexpect.Assert.prototype.toHaveOwnProperty;
 
 	iexpect.Assert.prototype.toThrow = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function() {
@@ -798,10 +807,37 @@ describe('iexpect', function (){
 	});
 
 	it('to have property', function() {
-		iexpect({ theProp: 23 }).toHaveProperty('theProp');
-		iexpect({ theProp: 23 }).not.toHaveProperty('z');
-		iexpect([1]).toHaveProperty('0');
-		iexpect(Object).toHaveProperty('prototype');
+		function Ctor() {}
+		Ctor.prototype = { protoProp: 'hello' };
+		var o = new Ctor();
+		o.prop = 'there';
+
+		iexpect(o).toHaveProperty('protoProp');
+		iexpect(o).toHaveProperty('prop');
+		iexpect(o).toHaveProperty('toString');
+
+		iexpect([1, 2, 3]).toHaveProperty('slice').and.toHaveProperty('splice');
+		iexpect(/regex/).toHaveProperty('test');
+		iexpect(7.24).toHave('toFixed');
+
+		var badExpect1 = function badExpect1() {
+			iexpect([1, 2, 3]).toHaveProperty('nonesuch');
+		};
+
+		var badExpect2 = function badExpect2() {
+			iexpect('a').toHaveProperty('toFixed');
+		};
+
+		chai.expect(badExpect1).to.throw();
+		chai.expect(badExpect2).to.throw();
+
+	});
+
+	it('to have own property', function() {
+		iexpect({ theProp: 23 }).toHaveOwnProperty('theProp');
+		iexpect({ theProp: 23 }).not.toHaveOwnProperty('z');
+		iexpect([1]).toHaveOwnProperty('0');
+		iexpect(Object).toHaveOwn('prototype');
 	});
 
 	it('to string', function() {

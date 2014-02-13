@@ -261,13 +261,22 @@
 
 	iexpect.Assert.prototype.toHaveProperty = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function(expected, actual) {
-			return Object.prototype.hasOwnProperty.call(actual, expected);
+			return actual[expected] !== void 0;
 		},
 		template: 'Expected {{actual}} to have property {{expected}}',
 		notTemplate: 'Expected {{actual}} not to have property {{expected}}'
 	});
 
+	iexpect.Assert.prototype.toHaveOwnProperty = iexpect.Assert.prototype.makeResolver({
+		assertFunction: function(expected, actual) {
+			return Object.prototype.hasOwnProperty.call(actual, expected);
+		},
+		template: 'Expected {{actual}} to have own property {{expected}}',
+		notTemplate: 'Expected {{actual}} not to have own property {{expected}}'
+	});
+
 	iexpect.Assert.prototype.toHave = iexpect.Assert.prototype.toHaveProperty;
+	iexpect.Assert.prototype.toHaveOwn = iexpect.Assert.prototype.toHaveOwnProperty;
 
 	iexpect.Assert.prototype.toThrow = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function() {

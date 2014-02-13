@@ -29,9 +29,14 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
     * `iexpect(myFunction).toThrow(TypeError)`
     * `iexpect(myFunction).toThrow("Error message")`
     * `iexpect(myFunction).toThrow(TypeError, "Error Message")`
-* toHaveProperty: Test whether object has a property (with Object.prototype.hasOwnProperty)
-    * `iexpect({ a: 1 }).toHaveProperty('a')`
-    * `iexpect([ 1 ]).toHaveProperty('0')`
+* toHaveOwnProperty: Test whether object has property with Object.prototype.hasOwnProperty()
+    * `iexpect({ a: 1 }).toHaveOwnProperty('a')`
+    * `iexpect({ a: 1 }).not.toHaveOwnProperty('toString')`
+    * `iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwnProperty('1')`
+    * `iexpect([1, 2]).not.toHaveOwnProperty('slice')`
+* toHaveProperty: Test whether object has a property (object[propertyName])
+    * `iexpect({ a: 1 }).toHaveProperty('toString')`
+    * `iexpect([ 1 ]).toHaveProperty('slice')`
 * not: Reverse expectations 
     * `iexpect(myFunction).not.toThrow()`
 * and: Chain expectations
