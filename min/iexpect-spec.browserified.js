@@ -836,7 +836,9 @@ describe('iexpect', function (){
 	it('to have own property', function() {
 		iexpect({ theProp: 23 }).toHaveOwnProperty('theProp');
 		iexpect({ theProp: 23 }).not.toHaveOwnProperty('z');
+		iexpect({ theProp: 23 }).not.toHaveOwnProperty('toString');
 		iexpect([1]).toHaveOwnProperty('0');
+		iexpect([1]).not.toHaveOwnProperty('slice');
 		iexpect(Object).toHaveOwn('prototype');
 	});
 
