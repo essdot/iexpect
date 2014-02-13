@@ -11,8 +11,6 @@ iexpect({ a: 1, b: 2 }).toHaveProperty('a').and.toHaveProperty('b');
 iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 ```
 
-iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Gulp tasks are provided for preparing scripts. Browserify is used to resolve the node modules into a single script for running the specs in the browser and for generating the standalone iexpect build.
-
 ## Functionality
 
 * toEqual: Compares values with triple-equals
@@ -81,7 +79,9 @@ iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)
 
 (Installs browserify, and mocha for the test runner)
 
-## Running tests
+## Tests & Tools
+
+iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Gulp tasks are provided for preparing scripts. Browserify is used to resolve the node modules into a single script for running the specs in the browser and for generating the standalone iexpect build.
 
 Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `mocha` or `npm test`.
 
