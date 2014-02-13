@@ -25,10 +25,10 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
     * `iexpect(1 === 2).toBeFalse()`
 * toThrow: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
-    * `iexpect(myFunction).toThrow()`
-    * `iexpect(myFunction).toThrow(TypeError)`
-    * `iexpect(myFunction).toThrow("Error message")`
-    * `iexpect(myFunction).toThrow(TypeError, "Error Message")`
+    * `iexpect(myFunction).toThrow() // expect myFunction to throw any error`
+    * `iexpect(myFunction).toThrow(TypeError) // expect myFunction to throw any TypeError`
+    * `iexpect(myFunction).toThrow("Error message") // expect myFunction to throw an error whose message contains "Error message"`
+    * `iexpect(myFunction).toThrow(TypeError, "Error message") // expect myFunction to throw a TypeError whose message contains "Error message'`
 * toHaveOwnProperty: Test whether object has property with Object.prototype.hasOwnProperty()
     * `iexpect({ a: 1 }).toHaveOwnProperty('a')`
     * `iexpect({ a: 1 }).not.toHaveOwnProperty('toString')`
