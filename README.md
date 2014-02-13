@@ -27,7 +27,7 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 * toThrow: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
     * Expect myFunction to throw any error:  
 `iexpect(myFunction).toThrow()`
-    * Expect myFunction to throw any TypeError:  
+    * Expect myFunction to throw any TypeError (any error whose constructor is TypeError):  
 `iexpect(myFunction).toThrow(TypeError)`
     * Expect myFunction to throw an error whose message contains "Error message":  
 `iexpect(myFunction).toThrow("Error message")`
