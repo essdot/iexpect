@@ -276,11 +276,16 @@ describe('iexpect', function (){
 			iexpect(arr1.concat([9, 16])).toDeepEqual([1, 2, 3, 9, 16]);
 			iexpect([]).toDeepEqual([]);
 
-			var badExpect = function badExpect1() {
+			var badExpect1 = function badExpect1() {
 				iexpect(arr1).toDeepEqual([1, 2, 3, 4]);
 			};
 
-			chai.expect(badExpect).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
+			var badExpect2 = function badExpect2() {
+				iexpect(arr1).toDeepEqual([ 3, 2, 1 ]);
+			};
+
+			chai.expect(badExpect1).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [1, 2, 3, 4]');
+			chai.expect(badExpect2).to.throw(iexpect.AssertError, 'Expected [1, 2, 3] to deeply equal [3, 2, 1]');
 		});
 
 		it('handles deep equality of objects', function() {
@@ -523,7 +528,7 @@ describe('iexpect', function (){
 
 		it('tests that function throws the error specified by error object', function() {
 			var thrownError;
-			
+
 			try {
 				shouldThrow();
 			} catch(e) {
