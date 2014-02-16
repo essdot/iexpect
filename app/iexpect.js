@@ -225,6 +225,10 @@
 				return is.isString(actual);
 			}
 
+			if (expected === 'nan') {
+				return is.isNan(actual);
+			}
+
 			if (expected === 'number') {
 				return is.isNumber(actual);
 			}

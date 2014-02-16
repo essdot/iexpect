@@ -416,6 +416,10 @@
 				return is.isString(actual);
 			}
 
+			if (expected === 'nan') {
+				return is.isNan(actual);
+			}
+
 			if (expected === 'number') {
 				return is.isNumber(actual);
 			}
@@ -722,6 +726,7 @@ describe('iexpect', function (){
 		iexpect(new Date()).toBeA('date');
 		iexpect(true).toBeA('boolean');
 		iexpect(/abcd/).toBeA('regex');
+		iexpect(NaN).toBeA('NaN');
 
 		var badExpect1 = function() {
 			iexpect(77).toBeA('function');

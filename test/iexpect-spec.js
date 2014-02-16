@@ -161,6 +161,7 @@ describe('iexpect', function (){
 		iexpect(new Date()).toBeA('date');
 		iexpect(true).toBeA('boolean');
 		iexpect(/abcd/).toBeA('regex');
+		iexpect(NaN).toBeA('NaN');
 
 		var badExpect1 = function() {
 			iexpect(77).toBeA('function');
