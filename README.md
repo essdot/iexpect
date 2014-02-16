@@ -22,10 +22,11 @@ iexpect(1).toEqual(1)
 iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])
 iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
 ```
-* toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
+* toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp, or NaN.
 ```javascript
 iexpect(myFunction).toBeA('function')
 iexpect({}).toBeAn('object')
+iexpect(NaN).toBeA('NaN')
 ```
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
 ```javascript
