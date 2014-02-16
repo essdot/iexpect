@@ -37,6 +37,7 @@
 	};
 
 	is.isNumber = function isNumber(n) {
+		if (is.isNan(n)) { return false; }
 		return typeof n === 'number';
 	};
 
@@ -147,6 +148,10 @@
 
 		if (is.isFunction(o)) {
 			return printFunction(o);
+		}
+
+		if (is.isNan(o)) {
+			return 'NaN';
 		}
 
 		if (is.isNumber(o)) {
@@ -408,6 +413,10 @@
 				return Array.isArray(actual);
 			}
 
+			if (expected === 'error') {
+				return is.isError(actual);
+			}
+
 			if (expected === 'function') {
 				return is.isFunction(actual);
 			}
@@ -579,7 +588,6 @@ describe('iexpect', function (){
 			iexpect(true).toEqual(true);
 			iexpect(a).toEqual(a);
 			iexpect(b).toEqual(b);
-			iexpect(NaN).toEqual(NaN);
 
 			// Create some functions with bad (incorrect) expectations.
 			// When expectations are wrong, they will throw.
@@ -601,6 +609,10 @@ describe('iexpect', function (){
 			chai.expect(badExpect1).to.throw('Expected 1 to equal 2');
 			chai.expect(badExpect2).to.throw("Expected 'a' to equal true");
 			chai.expect(badExpect3).to.throw("Expected { sport: 'hockey' } to equal { sport: 'hockey' }");
+		});
+
+		it('correctly handles NaN', function() {
+			iexpect(NaN).toEqual(NaN);
 		});
 	});
 	
@@ -708,6 +720,23 @@ describe('iexpect', function (){
 
 		it('to be false', function() {
 			iexpect(5 > 6).toBeFalse();
+			iexpect(NaN === NaN).toBeFalse();
+
+			var badExpect1 = function badExpect1() {
+				iexpect(true).toBeFalse();
+			};
+
+			var badExpect2 = function badExpect2() {
+				iexpect(undefined).toBeFalse();
+			};
+
+			var badExpect3 = function badExpect3() {
+				iexpect(123).toBeFalse();
+			};
+
+			chai.expect(badExpect1).to.throw('Expected true to be false');
+			chai.expect(badExpect2).to.throw('Expected undefined to be false');
+			chai.expect(badExpect3).to.throw('Expected 123 to be false');
 		});
 
 		it('to be undefined', function() {
@@ -735,10 +764,16 @@ describe('iexpect', function (){
 	describe('toBeA/toBeAn', function() {
 		it('detects functions', function() {
 			iexpect(Object.prototype.toString).toBeA('function');
+			iexpect(Object).toBeA('function');
+			iexpect(Array).toBeA('function');
 		});
 
 		it('detects numbers', function() {
 			iexpect(77).toBeA('number');
+			iexpect(Infinity).toBeA('number');
+			iexpect(-Infinity).toBeA('number');
+			iexpect(-0).toBeA('number');
+			iexpect(0).toBeA('number');
 		});
 
 		it('detects objects', function() {
@@ -761,8 +796,14 @@ describe('iexpect', function (){
 			iexpect(new Date()).toBeA('date');
 		});
 
+		it('detects Error objects', function() {
+			var e = new TypeError();
+			iexpect(e).toBeAn('error');
+		});
+
 		it('detects booleans', function() {
 			iexpect(true).toBeA('boolean');
+			iexpect(false).toBeA('boolean');
 		});
 
 		it('detects NaN', function() {
@@ -786,9 +827,14 @@ describe('iexpect', function (){
 				iexpect('array').toBeAn('array');
 			};
 
+			var badExpect4 = function() {
+				iexpect(NaN).toBeA('number');
+			};
+
 			chai.expect(badExpect1).to.throw("Expected 77 to be a function");
 			chai.expect(badExpect2).to.throw("Expected null to be an object");
 			chai.expect(badExpect3).to.throw("Expected 'array' to be an array");
+			chai.expect(badExpect4).to.throw("Expected NaN to be a number");
 		});
 	});
 
@@ -996,7 +1042,7 @@ describe('iexpect', function (){
 		});
 	});
 
-	describe('throw', function() {
+	describe('toThrow', function() {
 		var shouldThrow = function() {
 			var obj = void 0;
 			return obj.thing.thing;
@@ -1024,36 +1070,45 @@ describe('iexpect', function (){
 			iexpect(shouldntThrow).toThrow();
 		};
 
-		it('not throw', function() {
+		it('tests that function does not throw', function() {
 			expectNoThrow();
 
 			chai.expect(expectNoThrow).to.not.throw();
 			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 		});
 
-		it('throw without error spec', function() {
+		it('tests that function throws any error', function() {
 			chai.expect(expectTheThrow).to.not.throw();
 			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw");
 		});
 
-		it('throw with error spec', function() {
-			var expectTheThrow = function() {
-				var thrownError;
+		it('tests that function throws the error specified by type', function() {
+			iexpect(shouldThrow).toThrow(TypeError);
+		});
 
-				iexpect(shouldThrow).toThrow(TypeError);
-				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
-				iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
-				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
-				
-				try {
-					shouldThrow();
-				} catch(e) {
-					thrownError = e;
-				}
+		it('tests that function throws the error specified by error message', function() {
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
+		});
 
-				iexpect(shouldThrow).toThrow(thrownError);
-				iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
-			};
+		it('tests that function throws the error specified by type and error message', function() {
+			iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
+		});
+
+		it('tests that function throws the error specified by error object', function() {
+			var thrownError;
+			
+			try {
+				shouldThrow();
+			} catch(e) {
+				thrownError = e;
+			}
+
+			iexpect(shouldThrow).toThrow(thrownError);
+		});
+
+		it('tests that function does not throw a different error than specified', function() {
+			iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
 
 			var badExpect1 = function() {
 				function FakeError(){}
@@ -1072,15 +1127,9 @@ describe('iexpect', function (){
 				iexpect(shouldThrow).toThrow(newError);
 			};
 
-			chai.expect(shouldThrow).to.throw();
-			expectTheThrow();
-
-			chai.expect(expectTheThrow).to.not.throw();
-
 			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 			chai.expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-
 		});
 
 	});

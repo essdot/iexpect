@@ -468,7 +468,7 @@ describe('iexpect', function (){
 		});
 	});
 
-	describe('throw', function() {
+	describe('toThrow', function() {
 		var shouldThrow = function() {
 			var obj = void 0;
 			return obj.thing.thing;
@@ -496,36 +496,45 @@ describe('iexpect', function (){
 			iexpect(shouldntThrow).toThrow();
 		};
 
-		it('not throw', function() {
+		it('tests that function does not throw', function() {
 			expectNoThrow();
 
 			chai.expect(expectNoThrow).to.not.throw();
 			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] not to throw but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 		});
 
-		it('throw without error spec', function() {
+		it('tests that function throws any error', function() {
 			chai.expect(expectTheThrow).to.not.throw();
 			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw");
 		});
 
-		it('throw with error spec', function() {
-			var expectTheThrow = function() {
-				var thrownError;
+		it('tests that function throws the error specified by type', function() {
+			iexpect(shouldThrow).toThrow(TypeError);
+		});
 
-				iexpect(shouldThrow).toThrow(TypeError);
-				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
-				iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
-				iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
-				
-				try {
-					shouldThrow();
-				} catch(e) {
-					thrownError = e;
-				}
+		it('tests that function throws the error specified by error message', function() {
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined");
+		});
 
-				iexpect(shouldThrow).toThrow(thrownError);
-				iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
-			};
+		it('tests that function throws the error specified by type and error message', function() {
+			iexpect(shouldThrow).toThrow(TypeError, "Cannot read property 'thing' of undefined");
+			iexpect(shouldThrow).toThrow("Cannot read property 'thing' of undefined", TypeError);
+		});
+
+		it('tests that function throws the error specified by error object', function() {
+			var thrownError;
+			
+			try {
+				shouldThrow();
+			} catch(e) {
+				thrownError = e;
+			}
+
+			iexpect(shouldThrow).toThrow(thrownError);
+		});
+
+		it('tests that function does not throw a different error than specified', function() {
+			iexpect(shouldThrow).not.toThrow("fake error message").and.not.toThrow("another fake error message");
 
 			var badExpect1 = function() {
 				function FakeError(){}
@@ -544,15 +553,9 @@ describe('iexpect', function (){
 				iexpect(shouldThrow).toThrow(newError);
 			};
 
-			chai.expect(shouldThrow).to.throw();
-			expectTheThrow();
-
-			chai.expect(expectTheThrow).to.not.throw();
-
 			chai.expect(badExpect1).to.throw("Expected [Function: anonymous] to throw an error like [FakeError] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 			chai.expect(badExpect2).to.throw("Expected [Function: anonymous] to throw an error like [a fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
 			chai.expect(badExpect3).to.throw("Expected [Function: anonymous] to throw an error like [RangeError: fake error message] but [TypeError: Cannot read property 'thing' of undefined] was thrown");
-
 		});
 
 	});
