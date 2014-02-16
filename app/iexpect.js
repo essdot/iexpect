@@ -165,6 +165,9 @@
 
 	iexpect.Assert.prototype.toEqual = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function(expected, actual) {
+			if (is.isNan(expected) || is.isNan(actual)) {
+				return is.isNan(expected) && is.isNan(actual);
+			}
 			return expected === actual;
 		},
 		template: 'Expected {{actual}} to equal {{expected}}',

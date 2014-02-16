@@ -356,6 +356,9 @@
 
 	iexpect.Assert.prototype.toEqual = iexpect.Assert.prototype.makeResolver({
 		assertFunction: function(expected, actual) {
+			if (is.isNan(expected) || is.isNan(actual)) {
+				return is.isNan(expected) && is.isNan(actual);
+			}
 			return expected === actual;
 		},
 		template: 'Expected {{actual}} to equal {{expected}}',
@@ -570,6 +573,7 @@ describe('iexpect', function (){
 		iexpect(true).toEqual(true);
 		iexpect(a).toEqual(a);
 		iexpect(b).toEqual(b);
+		iexpect(NaN).toEqual(NaN);
 
 		// Create some functions with bad (incorrect) expectations.
 		// When expectations are wrong, they will throw.

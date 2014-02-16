@@ -12,6 +12,7 @@ describe('iexpect', function (){
 		iexpect(true).toEqual(true);
 		iexpect(a).toEqual(a);
 		iexpect(b).toEqual(b);
+		iexpect(NaN).toEqual(NaN);
 
 		// Create some functions with bad (incorrect) expectations.
 		// When expectations are wrong, they will throw.
