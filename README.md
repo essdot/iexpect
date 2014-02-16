@@ -13,19 +13,27 @@ iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 
 ## Functionality
 
-* toEqual: Compares values with triple-equals
+* toEqual: Compares values with triple-equals. (There is an exception for `NaN`, since `NaN !== NaN`.)
 ```javascript
 iexpect(1).toEqual(1)
+iexpect(NaN).toEqual(NaN)
 ```
-* toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
+* toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values in same order, objects have matching property names and values, Dates have same time value, RegExps have same pattern.
 ```javascript
 iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])
+iexpect([3, 2, 1]).not.toDeepEqual([1, 2, 3])
 iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
+iexpect(NaN).toDeepEqual(NaN)
 ```
-* toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp.
+* toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp, or NaN.
 ```javascript
 iexpect(myFunction).toBeA('function')
 iexpect({}).toBeAn('object')
+iexpect(NaN).toBeA('NaN')
+iexpect(9).toBeA('number')
+iexpect([]).toBeAn('array')
+iexpect(new Date()).toBeA('date')
+iexpect(/re/).toBeA('regex')
 ```
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
 ```javascript
@@ -48,7 +56,7 @@ iexpect(myFunction).toThrow("Error message")
 iexpect(myFunction).toThrow(TypeError, "Error message")
 
 // Expect myFunction to throw an error whose constructor is the same as errorObject's 
-//constructor, and whose message is the same as errorObject's message:  
+// constructor, and whose message is the same as errorObject's message:  
 iexpect(myFunction).toThrow(errorObject)
 ```
 * toHaveOwnProperty/toHaveOwn: Test whether object has property with Object.prototype.hasOwnProperty()
@@ -66,6 +74,7 @@ iexpect([ 1 ]).toHave('slice')
 * not: Reverse expectations 
 ```javascript
 iexpect(myFunction).not.toThrow()
+iexpect('a').not.toEqual('b')
 ```
 * and: Chain expectations
 ```javascript
