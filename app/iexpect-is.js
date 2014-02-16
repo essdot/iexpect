@@ -36,6 +36,7 @@
 	};
 
 	is.isNumber = function isNumber(n) {
+		if (is.isNan(n)) { return false; }
 		return typeof n === 'number';
 	};
 

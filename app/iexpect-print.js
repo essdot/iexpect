@@ -88,6 +88,10 @@
 			return printFunction(o);
 		}
 
+		if (is.isNan(o)) {
+			return 'NaN';
+		}
+
 		if (is.isNumber(o)) {
 			return printNumber(o);
 		}

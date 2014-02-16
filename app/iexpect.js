@@ -217,6 +217,10 @@
 				return Array.isArray(actual);
 			}
 
+			if (expected === 'error') {
+				return is.isError(actual);
+			}
+
 			if (expected === 'function') {
 				return is.isFunction(actual);
 			}
