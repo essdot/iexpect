@@ -71,6 +71,10 @@
 		if (a === b) {
 			return true;
 		}
+
+		if(is.isNan(a) || is.isNan(b)) {
+			return is.isNan(a) && is.isNan(b);
+		}
 		
 		if (is.isPrimitive(a) || is.isPrimitive(b)) {
 			return a === b;

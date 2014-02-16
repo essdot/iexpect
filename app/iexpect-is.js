@@ -19,6 +19,10 @@
 		return typeof f === 'function';
 	};
 
+	is.isNan = function isNan(n) {
+		return n !== n;
+	};
+
 	is.isNull = function isNull(n) {
 		return n === null;
 	};

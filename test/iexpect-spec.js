@@ -211,6 +211,8 @@ describe('iexpect', function (){
 		iexpect({}).toDeepEqual({});
 		iexpect([]).toDeepEqual([]);
 
+		iexpect([ 5, NaN, 9 ]).toDeepEqual([ 5, NaN, 9 ]);
+		iexpect(NaN).toDeepEqual(NaN);
 		iexpect(undefined).toDeepEqual(undefined);
 		iexpect('a').toDeepEqual('a');
 		iexpect(true).toDeepEqual(true);
