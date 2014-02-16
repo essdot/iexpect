@@ -18,9 +18,10 @@ iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 iexpect(1).toEqual(1)
 iexpect(NaN).toEqual(NaN)
 ```
-* toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values, objects have same properties, Dates have same time value, RegExps have same pattern.
+* toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values in same order, objects have matching property names and values, Dates have same time value, RegExps have same pattern.
 ```javascript
 iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])
+iexpect([3, 2, 1]).not.toDeepEqual([1, 2, 3])
 iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
 iexpect(NaN).toDeepEqual(NaN)
 ```
