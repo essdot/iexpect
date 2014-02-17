@@ -1,7 +1,7 @@
 {
   "name": "iexpect",
   "author": "Justin Sippel <justin@sippel.com>",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Javascript unit test assertion library",
   "scripts": {
     "test": "bin/test",
