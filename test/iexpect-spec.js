@@ -268,13 +268,21 @@ describe('iexpect', function (){
 		it('handles deep equality of arrays', function() {
 			var arr1 = [1, 2, 3];
 			var arr2 = [1, 2, 3];
+			var arr3 = [1, 2, 3];
+			var arr4 = [1, 2, 3];
+			arr3[6] = 6;
 
 			iexpect(arr1).toDeepEqual([1, 2, 3]);
 			iexpect(arr1).toDeepEqual(arr1);
 			iexpect(arr1).toDeepEqual(arr2);
 
 			iexpect(arr1.concat([9, 16])).toDeepEqual([1, 2, 3, 9, 16]);
+
 			iexpect([]).toDeepEqual([]);
+
+			iexpect(arr3).not.toDeepEqual(arr4);
+			arr4[6] = 6;
+			iexpect(arr3).toDeepEqual(arr4);
 
 			var badExpect1 = function badExpect1() {
 				iexpect(arr1).toDeepEqual([1, 2, 3, 4]);
