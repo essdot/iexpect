@@ -6,80 +6,79 @@ iexpect(1).toEqual(1);
 iexpect(1).not.toEqual(2);
 iexpect(myFunction).not.toThrow();
 iexpect(myFunction).toBeA('function');
-iexpect(void 0).toBeUndefined();
 iexpect({ a: 1, b: 2 }).toHaveProperty('a').and.toHaveProperty('b');
 iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 ```
 
-## Functionality
+## Assertions
 
 * toEqual: Compares values with triple-equals. (There is an exception for `NaN`, since `NaN !== NaN`.)
 ```javascript
-iexpect(1).toEqual(1)
-iexpect(NaN).toEqual(NaN)
+iexpect(1).toEqual(1);
+iexpect(NaN).toEqual(NaN);
 ```
 * toDeepEqual: Compares two values for "deep equality". Verifies arrays have same values in same order, objects have matching property names and values, Dates have same time value, RegExps have same pattern.
 ```javascript
-iexpect([1, 2, 3]).toDeepEqual([1, 2, 3])
-iexpect([3, 2, 1]).not.toDeepEqual([1, 2, 3])
-iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 })
-iexpect(NaN).toDeepEqual(NaN)
+iexpect([1, 2, 3]).toDeepEqual([1, 2, 3]);
+iexpect([3, 2, 1]).not.toDeepEqual([1, 2, 3]);
+iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 });
+iexpect(NaN).toDeepEqual(NaN);
 ```
 * toBeA/toBeAn: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp, or NaN.
 ```javascript
-iexpect(myFunction).toBeA('function')
-iexpect({}).toBeAn('object')
-iexpect(NaN).toBeA('NaN')
-iexpect(9).toBeA('number')
-iexpect([]).toBeAn('array')
-iexpect(new Date()).toBeA('date')
-iexpect(/re/).toBeA('regex')
+iexpect(myFunction).toBeA('function');
+iexpect({}).toBeAn('object');
+iexpect(NaN).toBeA('NaN');
+iexpect(9).toBeA('number');
+iexpect([]).toBeAn('array');
+iexpect(new Date()).toBeA('date');
+iexpect(/re/).toBeA('regex');
 ```
 * toBeTrue/toBeFalse/toBeUndefined: Test whether value is true/false/undefined
 ```javascript
-iexpect(1 === 2).toBeFalse()
-iexpect(1 === 1).toBeTrue()
+iexpect(1 === 2).toBeFalse();
+iexpect(1 === 1).toBeTrue();
 iexpect(Object.prototype.nonesuch).toBeUndefined()
 ```
 * toThrow: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
 ```javascript
 // Expect myFunction to throw any error:  
-iexpect(myFunction).toThrow()
+iexpect(myFunction).toThrow();
 
 // Expect myFunction to throw any TypeError (any error whose constructor is TypeError):  
-iexpect(myFunction).toThrow(TypeError)
+iexpect(myFunction).toThrow(TypeError);
 
 // Expect myFunction to throw an error whose message contains "Error message":  
-iexpect(myFunction).toThrow("Error message")
+iexpect(myFunction).toThrow("Error message");
 
 // Expect myFunction to throw a TypeError whose message contains "Error message':  
-iexpect(myFunction).toThrow(TypeError, "Error message")
+iexpect(myFunction).toThrow(TypeError, "Error message");
 
 // Expect myFunction to throw an error whose constructor is the same as errorObject's 
 // constructor, and whose message is the same as errorObject's message:  
-iexpect(myFunction).toThrow(errorObject)
+iexpect(myFunction).toThrow(errorObject);
 ```
-* toHaveOwnProperty/toHaveOwn: Test whether object has property with Object.prototype.hasOwnProperty()
+* toHaveOwnProperty/toHaveOwn: Test for own property with Object.prototype.hasOwnProperty()
 ```javascript
-iexpect({ a: 1 }).toHaveOwnProperty('a')
-iexpect({ a: 1 }).not.toHaveOwnProperty('toString')
-iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwn('1')
-iexpect([1, 2]).not.toHaveOwnProperty('slice')
+iexpect({ a: 1 }).toHaveOwnProperty('a');
+iexpect({ a: 1 }).not.toHaveOwnProperty('toString');
+iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwn('1');
+iexpect([1, 2]).not.toHaveOwnProperty('slice');
 ```
-* toHave/toHaveProperty: Test whether object has a property (object[propertyName])
+* toHave/toHaveProperty: Test for property (object[propertyName])
 ```javascript
-iexpect({ a: 1 }).toHaveProperty('toString')
-iexpect([ 1 ]).toHave('slice')
+iexpect({ a: 1 }).toHaveProperty('toString');
+iexpect([ 1 ]).toHave('slice');
 ```
 * not: Reverse expectations 
 ```javascript
-iexpect(myFunction).not.toThrow()
-iexpect('a').not.toEqual('b')
+iexpect(myFunction).not.toThrow();
+iexpect('a').not.toEqual('b');
 ```
 * and: Chain expectations
 ```javascript
-iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3])
-iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction)
+iexpect([1, 2, 3]).toBeAn('array').and.toDeepEqual([1, 2, 3]);
+iexpect(myFunction).not.toThrow().and.toBeA('function').and.toEqual(myFunction);
 ```
 
 ## Installing
@@ -106,6 +105,8 @@ GitHub: [http://github.com/essdot](http://github.com/essdot)
 ## Thanks
 
 The server script and general browser test setup was taken from the wonderful js-assessment by Rebecca Murphey: https://github.com/rmurphey/js-assessment
+
+The server script has some slight modifications to improve error handling.
 
 
 ## Contributing
