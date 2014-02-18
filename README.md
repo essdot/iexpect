@@ -12,7 +12,7 @@ iexpect([1, 2].concat([3, 4])).toDeepEqual([1, 2, 3, 4]);
 
 ## Usage
 
-Using iexpect is easy. When you require the iexpect module, you get back the iexpect function. When you call iexpect and pass it a value, you get an object back that you can use to make assertions about the value you passed. You can also test whether functions throw errors as you expect. All the assertions that iexpect offers are listed below.
+When you require the iexpect module, you get back the iexpect function. When you call iexpect and pass it a value, you get an object back that you can use to make assertions about the value you passed. You can also test whether functions throw errors as you expect. All the assertions that iexpect offers are listed below.
 
 Unless an assertion fails, it will return the same object, so that you can chain several assertions together with **and**. Failed assertions throw `AssertError` with a descriptive message listing the actual value, expected value, and why the assertion failed.
 
@@ -111,6 +111,10 @@ iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](h
 Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `mocha` or `npm test`.
 
 To run the tests in a browser, run `node bin/serve` and browse to [http://localhost:4444](http://localhost:4444).
+
+#### Using in browser
+
+[min/iexpect.min.js](min/iexpect.min.js) is the standalone build that can be used in web pages. It will set the global variable 'iexpect'.
 
 #### Maintainer
 
