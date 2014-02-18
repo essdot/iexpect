@@ -27,18 +27,23 @@ iexpect({ a: 1 }).toDeepEqual({ b: 1 }); // AssertError: Expected { a: 1 } to de
 ## Assertions
 
 * **toEqual**: Compares values with triple-equals. (There is an exception for `NaN`, since `NaN !== NaN`.)
+
 ```javascript
 iexpect(1).toEqual(1);
 iexpect(NaN).toEqual(NaN);
 ```
+
 * **toDeepEqual**: Compares two values for "deep equality". Verifies arrays have same values in same order, objects have matching property names and values, Dates have same time value, RegExps have same pattern.
+
 ```javascript
 iexpect([1, 2, 3]).toDeepEqual([1, 2, 3]);
 iexpect([3, 2, 1]).not.toDeepEqual([1, 2, 3]);
 iexpect({ a: 1, b: 2}).toDeepEqual({ b: 2, a: 1 });
 iexpect(NaN).toDeepEqual(NaN);
 ```
+
 * **toBeA**/**toBeAn**: Tests whether a value is a function, object (plain old JS object), array, number, date, RegExp, or NaN.
+
 ```javascript
 iexpect(myFunction).toBeA('function');
 iexpect({}).toBeAn('object');
@@ -48,13 +53,17 @@ iexpect([]).toBeAn('array');
 iexpect(new Date()).toBeA('date');
 iexpect(/re/).toBeA('regex');
 ```
+
 * **toBeTrue**/**toBeFalse**/**toBeUndefined**: Test whether value is true/false/undefined
+
 ```javascript
 iexpect(1 === 2).toBeFalse();
 iexpect(1 === 1).toBeTrue();
 iexpect(Object.prototype.nonesuch).toBeUndefined()
 ```
+
 * **toThrow**: Tests whether a function throws. Optionally set expectations about the type and message of the error thrown.
+
 ```javascript
 // Expect myFunction to throw any error:  
 iexpect(myFunction).toThrow();
@@ -72,18 +81,23 @@ iexpect(myFunction).toThrow(TypeError, "Error message");
 // constructor, and whose message is the same as errorObject's message:  
 iexpect(myFunction).toThrow(errorObject);
 ```
+
 * **toHaveOwnProperty**/**toHaveOwn**: Test for own property with Object.prototype.hasOwnProperty()
+
 ```javascript
 iexpect({ a: 1 }).toHaveOwnProperty('a');
 iexpect({ a: 1 }).not.toHaveOwnProperty('toString');
 iexpect([1, 2]).toHaveOwnProperty('0').and.toHaveOwn('1');
 iexpect([1, 2]).not.toHaveOwnProperty('slice');
 ```
+
 * **toHave**/**toHaveProperty**: Test for property (object[propertyName])
+
 ```javascript
 iexpect({ a: 1 }).toHaveProperty('toString');
 iexpect([ 1 ]).toHave('slice');
 ```
+
 * **not**: Reverse expectations 
 ```javascript
 iexpect(myFunction).not.toThrow();
