@@ -99,10 +99,8 @@ ___
 
 
 #### Installing
+Run `sh ./install.sh` to install Browserify, and mocha for the test runner.
 
-    sh ./install.sh
-
-(Installs browserify, and mocha for the test runner)
 
 #### Tests & Tools
 
