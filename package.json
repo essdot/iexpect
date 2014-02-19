@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git://github.com/essdot/iexpect.git"
   },
+  "main": "./index",
   "devDependencies": {
     "chai": "1.8.x",
     "express": "2.5.x",
