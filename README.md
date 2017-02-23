@@ -118,7 +118,7 @@ Run `sh ./install.sh` to install Browserify, and mocha for the test runner.
 
 #### Tests & Tools
 
-iexpect is tested with [mocha](http://visionmedia.github.io/mocha/) and [chai](http://chaijs.com/). Gulp tasks are provided for preparing scripts. Browserify is used to resolve the node modules into a single script for running the specs in the browser and for generating the standalone iexpect build.
+iexpect is tested with [mocha](http://mochajs.org/) and [chai](http://chaijs.com/). Gulp tasks are provided for preparing scripts. Browserify is used to resolve the node modules into a single script for running the specs in the browser and for generating the standalone iexpect build.
 
 Unit tests can be run on the command line, or in a browser. To run tests on the command line, run `mocha` or `npm test`.
 
